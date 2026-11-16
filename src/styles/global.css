@@ -1,0 +1,212 @@
+/* =========================================
+   STYLES GLOBAUX — utilisés sur tout le site
+   ========================================= */
+
+/* 1. Variables : couleurs et polices */
+:root {
+    --noir: #141110;
+    --fond-carte: #1f1a17;
+    --orange: #e2a952;
+    --brun: #3b2508;
+    --creme: #ffede0;
+
+    --font-pixel: "Press Start 2P", monospace;
+    --font-texte: "Inter", system-ui, sans-serif;
+}
+
+/* 2. Remise à zéro */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* 3. Page : fond noir + damier très discret + curseur pixel */
+body {
+    background-color: var(--noir);
+    background-image: conic-gradient(rgba(255, 237, 224, 0.025) 25%,
+            transparent 0 50%,
+            rgba(255, 237, 224, 0.025) 0 75%,
+            transparent 0);
+    background-size: 32px 32px;
+    color: var(--creme);
+    font-family: var(--font-texte);
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    line-height: 1.65;
+    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='26' viewBox='-1 -1 10 13' shape-rendering='crispEdges'><path d='M0 0h1v1h1v1h1v1h1v1h1v1h1v1h1v1H4v1h1v1h1v1H4V9H3V8H2v1H1v1H0z' fill='%23ffede0' stroke='%23141110' stroke-width='.6'/></svg>") 2 2, auto;
+}
+
+/* 4. Typographies : police pixel seulement pour les titres */
+h1,
+h2,
+h3 {
+    font-family: var(--font-pixel);
+    font-weight: 400;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+h1 {
+    font-size: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* 48 px max */
+h2 {
+    font-size: clamp(1.1rem, 2.5vw, 1.875rem);
+}
+
+/* 30 px max */
+h3 {
+    font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+}
+
+/* 20 px max */
+
+p {
+    max-width: 65ch;
+}
+
+a {
+    color: inherit;
+}
+
+/* Petit label en police pixel (12 px) */
+.label {
+    font-family: var(--font-pixel);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+    color: var(--orange);
+}
+
+/* 5. Mise en page */
+.container {
+    width: min(1100px, 100% - 2.5rem);
+    margin-inline: auto;
+}
+
+.section {
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+}
+
+/* 6. Panneau pixel : 4 ombres = 4 bordures.
+   Les coins restent vides : c'est l'effet "escalier". */
+.pixel-panel {
+    --panel-fond: var(--fond-carte);
+    --panel-bord: var(--creme);
+    --panel-ombre: var(--orange);
+
+    background: var(--panel-fond);
+    box-shadow:
+        0 -4px 0 var(--panel-bord),
+        0 4px 0 var(--panel-bord),
+        -4px 0 0 var(--panel-bord),
+        4px 0 0 var(--panel-bord),
+        8px 8px 0 var(--panel-ombre);
+}
+
+/* Variante orange */
+.pixel-panel--orange {
+    --panel-fond: var(--orange);
+    --panel-bord: var(--brun);
+    --panel-ombre: var(--creme);
+    color: var(--brun);
+}
+
+/* 7. Bouton pixel */
+.pixel-btn {
+    --decalage: 6px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    font-family: var(--font-pixel);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--brun);
+    background: var(--orange);
+    border: none;
+    cursor: pointer;
+    box-shadow:
+        0 -4px 0 var(--brun),
+        0 4px 0 var(--brun),
+        -4px 0 0 var(--brun),
+        4px 0 0 var(--brun),
+        var(--decalage) var(--decalage) 0 var(--creme);
+    transition: transform 0.12s steps(2);
+}
+
+.pixel-btn:hover {
+    --decalage: 8px;
+    transform: translateY(-3px);
+}
+
+.pixel-btn:active {
+    --decalage: 2px;
+    transform: translateY(2px);
+}
+
+/* Variante foncée (pour un bouton posé sur un fond orange) */
+.pixel-btn--sombre {
+    background: var(--brun);
+    color: var(--creme);
+}
+
+/* Focus clavier visible (accessibilité) */
+:focus-visible {
+    outline: 3px dashed var(--orange);
+    outline-offset: 6px;
+}
+
+/* 8. Séparateur en pixels */
+.pixel-divider {
+    height: 8px;
+    background: repeating-linear-gradient(90deg,
+            var(--orange) 0 8px,
+            transparent 8px 16px);
+    opacity: 0.5;
+}
+
+/* 9. Petite étoile 8 bits (un carré + 4 ombres = une croix) */
+.pixel-star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--orange);
+    box-shadow:
+        4px 0 var(--orange),
+        -4px 0 var(--orange),
+        0 4px var(--orange),
+        0 -4px var(--orange);
+    pointer-events: none;
+}
+
+/* 10. Logo (utilisé dans le header et le footer) */
+.logo {
+    font-family: var(--font-pixel);
+    font-size: 1rem;
+    color: var(--brun);
+    text-decoration: none;
+    text-shadow: 2px 2px 0 var(--creme);
+}
+
+/* 11. Si l'utilisateur préfère moins d'animations */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}

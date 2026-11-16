@@ -1,0 +1,62 @@
+---
+const { nom, type, resume, tags = [], href, delai = 0 } = Astro.props;
+---
+
+<!-- AOS est sur le div parent pour ne pas bloquer l'effet de survol -->
+<div data-aos="fade-up" data-aos-delay={delai}>
+  <a href={href} class="projet pixel-panel">
+    <p class="label">{type}</p>
+    <h3>{nom}</h3>
+    <p class="projet__resume">{resume}</p>
+
+    {tags.length > 0 && (
+      <ul class="projet__tags">
+        {tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+    )}
+
+    <span class="projet__lien">Lire le projet →</span>
+  </a>
+</div>
+
+<style>
+  .projet {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: var(--creme);
+    transition: transform 0.1s steps(2);
+  }
+
+  .projet:hover {
+    transform: translateY(-3px);
+  }
+
+  .projet__resume {
+    font-size: 0.95rem;
+    opacity: 0.85;
+  }
+
+  .projet__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+  }
+
+  .projet__tags li {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    border: 2px solid rgba(255, 237, 224, 0.3);
+  }
+
+  .projet__lien {
+    margin-top: auto;
+    font-family: var(--font-pixel);
+    font-size: 0.6875rem;
+    color: var(--orange);
+  }
+</style>

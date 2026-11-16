@@ -1,0 +1,345 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SkillCard from "../components/SkillCard.astro";
+
+// Toutes les infos des 5 cartes sont rangées ici.
+// La boucle plus bas crée une SkillCard pour chaque domaine.
+const domaines = [
+  {
+    number: "01",
+    title: "Comprendre",
+    subtitle: "Analyser avant de créer.",
+    description:
+      "Avant de proposer une solution, je cherche à comprendre le marché, les utilisateurs, les concurrents et les objectifs du projet.",
+    skills: [
+      "Veille",
+      "Étude de marché",
+      "Analyse des concurrents",
+      "Analyse des cibles",
+      "Parcours utilisateur",
+      "Stratégie de communication",
+    ],
+    icon: [
+      "..###...",
+      ".#...#..",
+      "#.....#.",
+      "#.....#.",
+      "#.....#.",
+      ".#...#..",
+      "..###.#.",
+      "......##",
+    ],
+    projet: {
+      nom: "ZOZZO",
+      detail: "Étude de marché, veille et analyse des cibles.",
+      href: "/projets/zozzo",
+    },
+  },
+  {
+    number: "02",
+    title: "Concevoir",
+    subtitle: "Transformer une analyse en solution.",
+    description:
+      "À partir des recherches réalisées, je construis une réponse cohérente avec les besoins du projet et de ses utilisateurs.",
+    skills: [
+      "Recommandation stratégique",
+      "UX",
+      "Arborescence",
+      "Wireframes",
+      "Maquettes Figma",
+      "Référencement",
+      "Stratégie social media",
+    ],
+    icon: [
+      "########",
+      "#..#...#",
+      "#..#...#",
+      "####...#",
+      "#..#####",
+      "#..#...#",
+      "#..#...#",
+      "########",
+    ],
+  },
+  {
+    number: "03",
+    title: "Exprimer",
+    subtitle: "Donner une identité aux idées.",
+    description:
+      "Je transforme une stratégie en contenus visuels, éditoriaux et numériques adaptés au support et au public ciblé.",
+    skills: [
+      "Direction artistique",
+      "Identité visuelle",
+      "Création de contenu",
+      "Réseaux sociaux",
+      "Rédaction",
+      "Vidéo",
+      "CapCut",
+      "Figma",
+    ],
+    icon: [
+      "...##...",
+      "...##...",
+      "########",
+      ".######.",
+      "..####..",
+      ".##..##.",
+      ".#....#.",
+      "........",
+    ],
+  },
+  {
+    number: "04",
+    title: "Développer",
+    subtitle: "Transformer une maquette en expérience web.",
+    description:
+      "Je développe des interfaces web responsive à partir de mes maquettes en privilégiant une structure simple, performante et compréhensible.",
+    skills: [
+      "HTML",
+      "CSS",
+      "Astro",
+      "JavaScript simple",
+      "Responsive design",
+      "Git / GitHub",
+      "Accessibilité",
+      "SEO",
+      "Performance web",
+    ],
+    icon: [
+      "........",
+      "..#..#..",
+      ".#....#.",
+      "#......#",
+      ".#....#.",
+      "..#..#..",
+      "...##...",
+    ],
+  },
+  {
+    number: "05",
+    title: "Entreprendre",
+    subtitle: "Faire avancer un projet.",
+    description:
+      "Je sais organiser les différentes étapes d'un projet, travailler avec des contraintes et présenter les choix réalisés.",
+    skills: [
+      "Gestion de projet",
+      "Organisation",
+      "Budget",
+      "Travail en équipe",
+      "Présentation orale",
+      "Relation professionnelle",
+      "Planification",
+    ],
+    icon: [
+      "##......",
+      "#####...",
+      "#######.",
+      "#####...",
+      "##......",
+      "#.......",
+      "#.......",
+      "###.....",
+    ],
+  },
+];
+---
+
+<Layout
+  title="Compétences — Rahma Hamdi"
+  description="Mes compétences en BUT MMI : comprendre, concevoir, exprimer, développer et entreprendre."
+>
+  <!-- INTRODUCTION -->
+  <section class="intro container">
+    <span class="pixel-star" style="top: 22%; right: 10%;"></span>
+    <span class="pixel-star" style="top: 55%; right: 22%;"></span>
+    <span class="pixel-star" style="bottom: 18%; right: 6%;"></span>
+
+    <p class="label">Écran de progression</p>
+    <h1>Mes compétences</h1>
+    <p class="intro__sous-titre">
+      Des compétences développées entre stratégie, création et numérique.
+    </p>
+    <p class="intro__texte">
+      Mon parcours en BUT MMI m'a permis de développer un profil polyvalent, allant de
+      l'analyse et de la stratégie de communication jusqu'à la création de contenus et
+      au développement web.
+    </p>
+
+    <!-- Jauge : 2e année sur 3 -->
+    <div class="progression">
+      <span class="label">BUT MMI</span>
+      <div class="jauge" role="img" aria-label="Deuxième année sur trois">
+        <span class="plein"></span>
+        <span class="plein"></span>
+        <span></span>
+      </div>
+      <span class="label">Année 2/3</span>
+    </div>
+
+    <ol class="parcours">
+      <li>Analyser</li>
+      <li>Concevoir</li>
+      <li>Créer</li>
+      <li>Développer</li>
+      <li>Gérer un projet</li>
+    </ol>
+  </section>
+
+  <div class="container"><div class="pixel-divider"></div></div>
+
+  <!-- LES 5 DOMAINES -->
+  <section class="container section">
+    <p class="label">Arbre de compétences</p>
+    <h2>Les 5 domaines du BUT MMI</h2>
+
+    <div class="grille">
+      {domaines.map((domaine, index) => (
+        <SkillCard
+          number={domaine.number}
+          title={domaine.title}
+          subtitle={domaine.subtitle}
+          description={domaine.description}
+          skills={domaine.skills}
+          icon={domaine.icon}
+          projet={domaine.projet}
+          delai={index * 100}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- SECTION FINALE -->
+  <section class="fin container section" data-aos="fade-up">
+    <h2 class="fin__titre">Ces compétences prennent tout leur sens dans mes projets.</h2>
+    <a href="/projets" class="pixel-btn">Découvrir mes projets →</a>
+  </section>
+</Layout>
+
+<script>
+  import { gsap } from "gsap";
+
+  const moinsDanimations = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!moinsDanimations) {
+    // Intro : les éléments arrivent un par un, par petits sauts (steps)
+    gsap.from(".intro > *:not(.pixel-star)", {
+      y: 12,
+      opacity: 0,
+      duration: 0.4,
+      ease: "steps(4)",
+      stagger: 0.1,
+    });
+
+    // Étoiles : clignotement doux
+    gsap.to(".pixel-star", {
+      opacity: 0.2,
+      duration: 0.6,
+      ease: "steps(2)",
+      repeat: -1,
+      yoyo: true,
+      stagger: 0.4,
+    });
+  }
+</script>
+
+<style>
+  .intro {
+    position: relative;
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: 2.5rem;
+  }
+
+  .intro h1 {
+    margin-block: 0.75rem 1rem;
+  }
+
+  .intro__sous-titre {
+    font-weight: 600;
+    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.25rem);
+    color: var(--orange);
+  }
+
+  .intro__texte {
+    margin-top: 0.75rem;
+    max-width: 60ch;
+    opacity: 0.9;
+  }
+
+  .progression {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .jauge {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border: 3px solid var(--creme);
+  }
+
+  .jauge span {
+    width: 28px;
+    height: 12px;
+    background: rgba(255, 237, 224, 0.12);
+  }
+
+  .jauge .plein {
+    background: var(--orange);
+  }
+
+  .parcours {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    list-style: none;
+  }
+
+  .parcours li {
+    font-family: var(--font-pixel);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+  }
+
+  .parcours li:not(:last-child)::after {
+    content: " →";
+    color: var(--orange);
+  }
+
+  h2 {
+    margin-top: 0.5rem;
+  }
+
+  /* Grille : 1 colonne mobile, 2 tablette, 3 desktop */
+  .grille {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem 2rem;
+    margin-top: 2.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .grille { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .grille { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .fin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    text-align: center;
+  }
+
+  .fin__titre {
+    max-width: 30ch;
+    font-size: clamp(0.95rem, 2vw, 1.375rem);
+    color: var(--creme);
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+// Dessine une icône pixel à partir d'une grille de texte.
+// "#" = pixel coloré, "." = pixel vide.
+const { grille, taille = 4 } = Astro.props;
+
+const colonnes = grille[0].length;
+const pixels = grille.join("").split("");
+---
+
+<div
+  class="pixel-icon"
+  style={`--colonnes: ${colonnes}; --taille: ${taille}px;`}
+  aria-hidden="true"
+>
+  {pixels.map((pixel) => <span class={pixel === "#" ? "on" : ""}></span>)}
+</div>
+
+<style>
+  .pixel-icon {
+    display: grid;
+    grid-template-columns: repeat(var(--colonnes), var(--taille));
+    grid-auto-rows: var(--taille);
+    width: max-content;
+  }
+
+  .on {
+    background: currentColor;
+  }
+</style>

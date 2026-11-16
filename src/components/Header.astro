@@ -1,0 +1,92 @@
+---
+import { liens } from "../data/navigation.js";
+
+const pageActuelle = Astro.url.pathname;
+
+// Un lien est "actif" si on est sur sa page
+function estActif(href) {
+  if (href === "/") return pageActuelle === "/";
+  return pageActuelle.startsWith(href);
+}
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="logo">PORTFOLIO</a>
+
+    <nav aria-label="Navigation principale">
+      <ul class="nav">
+        {liens.map((lien) => (
+          <li>
+            <a
+              href={lien.href}
+              class="nav__lien"
+              aria-current={estActif(lien.href) ? "page" : undefined}
+            >
+              {lien.nom}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--orange);
+    border-bottom: 4px solid var(--brun);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-block: 0.9rem;
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+  }
+
+  .nav__lien {
+    display: block;
+    padding: 0.5rem 0.7rem;
+    font-family: var(--font-pixel);
+    font-size: 0.6875rem;
+    color: var(--brun);
+    text-decoration: none;
+    border: 3px solid var(--brun);
+    transition: transform 0.1s steps(2);
+  }
+
+  .nav__lien:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 0 var(--brun);
+  }
+
+  .nav__lien[aria-current="page"] {
+    background: var(--brun);
+    color: var(--orange);
+  }
+
+  @media (max-width: 760px) {
+    .header__inner,
+    .nav {
+      justify-content: center;
+    }
+
+    .nav__lien {
+      font-size: 0.625rem;
+      padding: 0.45rem 0.55rem;
+    }
+  }
+</style>

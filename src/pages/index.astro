@@ -1,0 +1,175 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { projets } from "../data/projets.js";
+---
+
+<Layout title="Rahma Hamdi — Portfolio BUT MMI">
+  <!-- HERO -->
+  <section class="hero container">
+    <span class="pixel-star" style="top: 12%; left: 8%;"></span>
+    <span class="pixel-star" style="top: 30%; right: 6%;"></span>
+    <span class="pixel-star" style="bottom: 10%; left: 18%;"></span>
+
+    <div class="hero__panel pixel-panel pixel-panel--orange">
+      <p class="hero__label">Portfolio · BUT MMI</p>
+      <h1>Rahma Hamdi</h1>
+      <p class="hero__texte">Stratégie de communication, création de contenus et web.</p>
+      <a href="#presentation" class="pixel-btn pixel-btn--sombre">Continuer →</a>
+      <p class="hero__clignote">▶ Press start</p>
+    </div>
+  </section>
+
+  <!-- PRÉSENTATION -->
+  <section id="presentation" class="container section" data-aos="fade-up">
+    <p class="label">Présentation</p>
+    <h2>Bonjour, moi c'est Rahma</h2>
+    <div class="texte">
+      <p>
+        Étudiante en BUT MMI, je conçois des stratégies de communication digitale et je
+        les fais vivre : de l'analyse du besoin à la création des supports, en passant
+        par les réseaux sociaux, le contenu et le web.
+      </p>
+      <p>
+        Pour moi, une com n'a de valeur que si elle répond à un objectif et touche la
+        bonne cible. Découvrez mes projets et ma démarche, de l'idée jusqu'au résultat.
+      </p>
+    </div>
+  </section>
+
+  <div class="container"><div class="pixel-divider"></div></div>
+
+  <!-- PROJETS -->
+  <section class="container section">
+    <p class="label">Sélection</p>
+    <h2>Projets</h2>
+
+    <div class="grille">
+      {projets.map((projet, index) => (
+        <ProjectCard
+          nom={projet.nom}
+          type={projet.type}
+          resume={projet.resume}
+          tags={projet.tags}
+          href={`/projets/${projet.slug}`}
+          delai={index * 100}
+        />
+      ))}
+    </div>
+  </section>
+
+  <div class="container"><div class="pixel-divider"></div></div>
+
+  <!-- COMPÉTENCES -->
+  <section class="container section" data-aos="fade-up">
+    <p class="label">Profil</p>
+    <h2>Compétences</h2>
+    <ol class="parcours">
+      <li>Analyser</li>
+      <li>Concevoir</li>
+      <li>Créer</li>
+      <li>Développer</li>
+      <li>Gérer un projet</li>
+    </ol>
+    <a href="/competences" class="pixel-btn">Voir mes compétences →</a>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="container section contact" data-aos="fade-up">
+    <h2>Contact</h2>
+    <p>Une question, un projet ou une opportunité ? Écrivez-moi.</p>
+    <a href="/contact" class="pixel-btn">Me contacter →</a>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+
+  .hero__panel {
+    max-width: 760px;
+    margin-inline: auto;
+    padding: clamp(2.5rem, 6vw, 4.5rem) 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .hero__label {
+    font-family: var(--font-pixel);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    text-shadow: 3px 3px 0 var(--creme);
+  }
+
+  .hero__texte {
+    font-weight: 600;
+  }
+
+  .hero__clignote {
+    font-family: var(--font-pixel);
+    font-size: 0.625rem;
+    animation: clignote 1.2s steps(1) infinite;
+  }
+
+  @keyframes clignote {
+    50% { opacity: 0; }
+  }
+
+  h2 {
+    margin-block: 0.5rem 1.5rem;
+  }
+
+  .texte {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .grille {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .grille { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 1024px) {
+    .grille { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .parcours {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    list-style: none;
+  }
+
+  .parcours li {
+    font-family: var(--font-pixel);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+  }
+
+  .parcours li:not(:last-child)::after {
+    content: " →";
+    color: var(--orange);
+  }
+
+  .contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+</style>
