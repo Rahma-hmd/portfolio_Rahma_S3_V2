@@ -1,62 +1,104 @@
 ---
-const { nom, type, resume, tags = [], href, delai = 0 } = Astro.props;
+// Un projet = un dossier pixel art cliquable.
+// Le nom du projet change, mais le dessin du dossier reste le même.
+const { nom, type, href, delai = 0 } = Astro.props;
 ---
 
-<!-- AOS est sur le div parent pour ne pas bloquer l'effet de survol -->
-<div data-aos="fade-up" data-aos-delay={delai}>
-  <a href={href} class="projet pixel-panel">
-    <p class="label">{type}</p>
-    <h3>{nom}</h3>
-    <p class="projet__resume">{resume}</p>
+<div class="emplacement">
 
-    {tags.length > 0 && (
-      <ul class="projet__tags">
-        {tags.map((tag) => <li>{tag}</li>)}
-      </ul>
-    )}
-
-    <span class="projet__lien">Lire le projet →</span>
+  <a href={href} class="dossier">
+    <span class="dossier__onglet"></span>
+    <span class="dossier__corps">
+      <span class="dossier__nom">{nom}</span>
+    </span>
   </a>
+
+  {type && <p class="dossier__type">{type}</p>}
 </div>
 
 <style>
-  .projet {
+  .emplacement {
+    justify-self: center;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    height: 100%;
-    padding: 1.5rem;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .dossier {
+    --contour: #141110;
+
+    display: flex;
+    flex-direction: column;
+    width: clamp(150px, 15vw, 180px);
     text-decoration: none;
-    color: var(--creme);
     transition: transform 0.1s steps(2);
   }
 
-  .projet:hover {
+  /* Le petit onglet en haut à gauche */
+  .dossier__onglet {
+    width: 42%;
+    height: 12px;
+    background: #dba552;
+    border: 3px solid var(--contour);
+    border-bottom: none;
+  }
+
+  /* Le corps du dossier : 3 bandes de couleur comme sur ta maquette */
+  .dossier__corps {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: clamp(100px, 10vw, 120px);
+    padding: 0 0.5rem 1rem;
+    border: 3px solid var(--contour);
+    background: linear-gradient(
+      90deg,
+      #c27a3c 0 14%,
+      #cf8e47 14% 30%,
+      #dba552 30%
+    );
+    box-shadow: 4px 4px 0 var(--creme);
+  }
+
+  /* La feuille blanche qui dépasse en haut */
+  .dossier__corps::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 6px;
+    right: 6px;
+    height: 14px;
+    background: linear-gradient(#f4f2f7 0 55%, #c8c4d3 55%);
+    border: 3px solid var(--contour);
+    transition: transform 0.1s steps(2);
+  }
+
+  .dossier__nom {
+    font-family: var(--font-pixel);
+    font-size: clamp(0.625rem, 1vw, 0.75rem);
+    color: var(--contour);
+  }
+
+  .dossier__type {
+    font-family: var(--font-pixel);
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--orange);
+  }
+
+  /* Au survol : le dossier monte et la feuille "sort" un peu */
+  .dossier:hover {
     transform: translateY(-3px);
   }
 
-  .projet__resume {
-    font-size: 0.95rem;
-    opacity: 0.85;
+  .dossier:hover .dossier__corps {
+    box-shadow: 6px 6px 0 var(--creme);
   }
 
-  .projet__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    list-style: none;
-  }
-
-  .projet__tags li {
-    padding: 0.2rem 0.5rem;
-    font-size: 0.8rem;
-    border: 2px solid rgba(255, 237, 224, 0.3);
-  }
-
-  .projet__lien {
-    margin-top: auto;
-    font-family: var(--font-pixel);
-    font-size: 0.6875rem;
-    color: var(--orange);
+  .dossier:hover .dossier__corps::before {
+    transform: translateY(-5px);
   }
 </style>

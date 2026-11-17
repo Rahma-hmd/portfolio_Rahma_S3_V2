@@ -59,6 +59,24 @@ import { projets } from "../data/projets.js";
   </section>
 
   <div class="container"><div class="pixel-divider"></div></div>
+    <!-- À PROPOS -->
+  <section class="container section apropos-accueil" data-aos="fade-up">
+    <p class="label">Qui suis-je ?</p>
+    <h2>À propos</h2>
+    <img
+      src="/images/accueil-apropos.png"
+      alt="Illustration pixel art de Rahma avec un café, un ordinateur portable et une chaise de bureau"
+      width="561"
+      height="494"
+      loading="lazy"
+      class="apropos-accueil__image"
+    />
+    <a href="/a-propos" class="pixel-btn">En savoir plus →</a>
+  </section>
+
+  <div class="container"><div class="pixel-divider"></div></div>
+
+
 
   <!-- COMPÉTENCES -->
   <section class="container section" data-aos="fade-up">
@@ -172,4 +190,20 @@ import { projets } from "../data/projets.js";
     align-items: flex-start;
     gap: 1rem;
   }
+    .apropos-accueil {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .apropos-accueil h2 {
+    margin: 0;
+  }
+
+  .apropos-accueil__image {
+    width: min(100%, 480px);
+    height: auto;
+  }
+
 </style>

@@ -6,18 +6,29 @@ const annee = new Date().getFullYear();
 
 <footer class="footer">
   <div class="container footer__inner">
-    <div>
+    <!-- Gauche : logo + copyright -->
+    <div class="footer__marque">
       <a href="/" class="logo">PORTFOLIO</a>
       <p class="footer__copy">{annee} © Rahma Hamdi</p>
     </div>
 
-    <nav aria-label="Pied de page">
-      <ul class="footer__liens">
-        {liens.map((lien) => (
-          <li><a href={lien.href}>{lien.nom}</a></li>
-        ))}
-      </ul>
-    </nav>
+    <!-- Droite : déco posée sur une ligne, liens en dessous -->
+    <div class="footer__droite">
+      <img
+        src="/images/footer-deco.png"
+        alt=""
+        width="64"
+        height="32"
+        class="footer__deco"
+      />
+      <nav aria-label="Pied de page">
+        <ul class="footer__liens">
+          {liens.map((lien) => (
+            <li><a href={lien.href}>{lien.nom}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   </div>
 </footer>
 
@@ -25,36 +36,52 @@ const annee = new Date().getFullYear();
   .footer {
     margin-top: 4rem;
     background: var(--orange);
-    color: var(--brun);
-    border-top: 4px solid var(--brun);
+    color: var(--noir);
   }
 
+  /* ---------- DESKTOP ---------- */
   .footer__inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    padding-block: 1.75rem;
+    gap: 2rem;
+    padding-block: 1.25rem;
   }
 
   .footer__copy {
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
     font-family: var(--font-pixel);
-    font-size: 0.625rem;
+    font-size: 0.5625rem; /* 9 px */
   }
 
+  .footer__droite {
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 360px);
+  }
+
+  /* La déco est posée sur la ligne, à droite */
+  .footer__deco {
+    align-self: flex-end;
+    width: auto;
+    height: 32px;
+    image-rendering: pixelated;
+  }
+
+  /* La ligne noire sous la déco */
   .footer__liens {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
+    gap: 0.25rem 1rem;
+    padding-top: 0.4rem;
+    border-top: 2px solid var(--noir);
     list-style: none;
   }
 
   .footer__liens a {
     font-family: var(--font-pixel);
-    font-size: 0.625rem;
-    color: var(--brun);
+    font-size: 0.625rem; /* 10 px */
+    color: var(--noir);
     text-decoration: none;
   }
 
@@ -62,5 +89,39 @@ const annee = new Date().getFullYear();
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
+  }
+
+  /* ---------- MOBILE (moins de 640 px) ---------- */
+  @media (max-width: 640px) {
+    .footer {
+      margin-top: 2.5rem;
+    }
+
+    .footer__inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.25rem;
+    }
+
+    .footer__droite {
+      width: min(100%, 300px);
+    }
+
+    .footer__deco {
+      height: 26px;
+    }
+
+    .footer__liens {
+      justify-content: center;
+      gap: 0 0.25rem;
+    }
+
+    /* Zone de clic plus grande au doigt */
+    .footer__liens a {
+      display: block;
+      padding: 0.5rem 0.4rem;
+      font-size: 0.5625rem;
+    }
   }
 </style>

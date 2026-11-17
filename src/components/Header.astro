@@ -14,7 +14,20 @@ function estActif(href) {
   <div class="container header__inner">
     <a href="/" class="logo">PORTFOLIO</a>
 
-    <nav aria-label="Navigation principale">
+    <!-- Bouton burger : visible seulement sur mobile et tablette -->
+    <button
+      class="burger"
+      type="button"
+      aria-expanded="false"
+      aria-controls="menu"
+      aria-label="Ouvrir le menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="menu" class="menu" aria-label="Navigation principale">
       <ul class="nav">
         {liens.map((lien) => (
           <li>
@@ -31,6 +44,29 @@ function estActif(href) {
     </nav>
   </div>
 </header>
+
+<script>
+  // Ouvre / ferme le menu mobile
+  const bouton = document.querySelector(".burger");
+  const menu = document.querySelector(".menu");
+
+  function fermerMenu() {
+    menu.classList.remove("ouvert");
+    bouton.setAttribute("aria-expanded", "false");
+    bouton.setAttribute("aria-label", "Ouvrir le menu");
+  }
+
+  bouton.addEventListener("click", () => {
+    const ouvert = menu.classList.toggle("ouvert");
+    bouton.setAttribute("aria-expanded", ouvert);
+    bouton.setAttribute("aria-label", ouvert ? "Fermer le menu" : "Ouvrir le menu");
+  });
+
+  // La touche Échap ferme le menu (accessibilité clavier)
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") fermerMenu();
+  });
+</script>
 
 <style>
   .header {
@@ -50,9 +86,9 @@ function estActif(href) {
     padding-block: 0.9rem;
   }
 
+  /* ---------- DESKTOP (par défaut) ---------- */
   .nav {
     display: flex;
-    flex-wrap: wrap;
     gap: 0.6rem;
     list-style: none;
   }
@@ -78,15 +114,71 @@ function estActif(href) {
     color: var(--orange);
   }
 
-  @media (max-width: 760px) {
-    .header__inner,
-    .nav {
+  /* Le burger est caché sur desktop */
+  .burger {
+    display: none;
+  }
+
+  /* ---------- TABLETTE + MOBILE (moins de 900 px) ---------- */
+  @media (max-width: 900px) {
+    /* Header plus fin */
+    .header__inner {
+      padding-block: 0.6rem;
+      gap: 0.6rem;
+    }
+
+    /* Burger pixel : 3 barres carrées */
+    .burger {
+      display: flex;
+      flex-direction: column;
       justify-content: center;
+      gap: 4px;
+      width: 40px;
+      height: 40px;
+      padding: 0 8px;
+      background: var(--orange);
+      border: 3px solid var(--brun);
+      box-shadow: 3px 3px 0 var(--brun);
+      cursor: pointer;
+    }
+
+    .burger span {
+      height: 3px;
+      background: var(--brun);
+    }
+
+    /* Bouton enfoncé quand le menu est ouvert */
+    .burger[aria-expanded="true"] {
+      background: var(--brun);
+      box-shadow: none;
+      transform: translate(3px, 3px);
+    }
+
+    .burger[aria-expanded="true"] span {
+      background: var(--orange);
+    }
+
+    /* Le menu est caché tant qu'on n'a pas cliqué */
+    .menu {
+      display: none;
+      width: 100%;
+    }
+
+    .menu.ouvert {
+      display: block;
+    }
+
+    /* Les liens passent en colonne, pleine largeur */
+    .nav {
+      flex-direction: column;
+      gap: 0.4rem;
+      padding-block: 0.5rem 0.25rem;
+      border-top: 3px dashed var(--brun);
     }
 
     .nav__lien {
+      padding: 0.75rem 0.9rem;
       font-size: 0.625rem;
-      padding: 0.45rem 0.55rem;
     }
   }
 </style>

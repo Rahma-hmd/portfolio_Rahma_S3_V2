@@ -1,3 +1,4 @@
+
 /* =========================================
    STYLES GLOBAUX — utilisés sur tout le site
    ========================================= */
@@ -7,7 +8,9 @@
     --noir: #141110;
     --fond-carte: #1f1a17;
     --orange: #e2a952;
+    --orange-clair: #edbb6c;
     --brun: #3b2508;
+    --brun-clair: #4d3210;
     --creme: #ffede0;
 
     --font-pixel: "Press Start 2P", monospace;
@@ -40,7 +43,9 @@ body {
     font-family: var(--font-texte);
     font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
     line-height: 1.65;
-    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='26' viewBox='-1 -1 10 13' shape-rendering='crispEdges'><path d='M0 0h1v1h1v1h1v1h1v1h1v1h1v1h1v1H4v1h1v1h1v1H4V9H3V8H2v1H1v1H0z' fill='%23ffede0' stroke='%23141110' stroke-width='.6'/></svg>") 2 2, auto;
+    overflow-x: hidden;
+    /* aucun débordement horizontal sur mobile */
+    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='26' viewBox='-1 -1 10 13' shape-rendering='crispEdges'><path d='M0 0h1v1h1v1h1v1h1v1h1v1h1v1H4v1h1v1h1v1H4V9H3V8H2v1H1v1H0z' fill='%23ffede0' stroke='%23141110' stroke-width='.6'/></svg>") 2 2, auto;
 }
 
 /* 4. Typographies : police pixel seulement pour les titres */
@@ -120,13 +125,19 @@ a {
     color: var(--brun);
 }
 
-/* 7. Bouton pixel */
+/* 7. Bouton pixel
+   Normal : ombre dure en bas à droite
+   Survol : couleur plus claire + monte de 2 px
+   Clic   : le bouton "s'enfonce" dans son ombre */
 .pixel-btn {
     --decalage: 6px;
+    /* taille de l'ombre dure */
 
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
+    min-height: 44px;
+    /* taille confortable au doigt */
     padding: 0.9rem 1.25rem;
     font-family: var(--font-pixel);
     font-size: 0.75rem;
@@ -143,23 +154,35 @@ a {
         -4px 0 0 var(--brun),
         4px 0 0 var(--brun),
         var(--decalage) var(--decalage) 0 var(--creme);
-    transition: transform 0.12s steps(2);
-}
-
-.pixel-btn:hover {
-    --decalage: 8px;
-    transform: translateY(-3px);
-}
-
-.pixel-btn:active {
-    --decalage: 2px;
-    transform: translateY(2px);
+    transition:
+        transform 0.15s steps(2),
+        box-shadow 0.15s steps(2),
+        background-color 0.15s steps(2);
 }
 
 /* Variante foncée (pour un bouton posé sur un fond orange) */
 .pixel-btn--sombre {
     background: var(--brun);
     color: var(--creme);
+}
+
+/* Le survol seulement sur les écrans avec souris
+   (sur téléphone, le survol "reste bloqué" après un toucher) */
+@media (hover: hover) {
+    .pixel-btn:hover {
+        background: var(--orange-clair);
+        transform: translateY(-2px);
+    }
+
+    .pixel-btn--sombre:hover {
+        background: var(--brun-clair);
+    }
+}
+
+/* Clic : le bouton descend dans son ombre, qui devient plus petite */
+.pixel-btn:active {
+    --decalage: 2px;
+    transform: translate(4px, 4px);
 }
 
 /* Focus clavier visible (accessibilité) */
@@ -191,6 +214,13 @@ a {
     pointer-events: none;
 }
 
+/* Moins de décorations sur mobile */
+@media (max-width: 640px) {
+    .pixel-star:nth-of-type(n + 3) {
+        display: none;
+    }
+}
+
 /* 10. Logo (utilisé dans le header et le footer) */
 .logo {
     font-family: var(--font-pixel);
@@ -200,13 +230,53 @@ a {
     text-shadow: 2px 2px 0 var(--creme);
 }
 
-/* 11. Si l'utilisateur préfère moins d'animations */
+/* 11. Transition entre les pages (sans JavaScript)
+   La nouvelle page apparaît de gauche à droite en 8 petits sauts,
+   comme un écran de jeu rétro. */
+@view-transition {
+    navigation: auto;
+}
+
+/* L'ancienne page reste affichée pendant que la nouvelle arrive par-dessus */
+::view-transition-old(root) {
+    animation: none;
+}
+
+::view-transition-new(root) {
+    animation: balayage 0.35s steps(8) both;
+}
+
+@keyframes balayage {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    /* complètement cachée */
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+
+    /* complètement visible */
+}
+
+/* Le header ne bouge pas pendant la transition */
+.header {
+    view-transition-name: header;
+}
+
+/* 12. Si l'utilisateur préfère moins d'animations */
 @media (prefers-reduced-motion: reduce) {
 
     *,
     *::before,
     *::after {
         transition: none !important;
+        animation: none !important;
+    }
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
         animation: none !important;
     }
 }
