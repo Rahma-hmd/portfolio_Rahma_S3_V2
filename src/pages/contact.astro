@@ -10,10 +10,18 @@ import Layout from "../layouts/Layout.astro";
 
     <form
       class="formulaire pixel-panel pixel-panel--orange"
-      action="https://formspree.io/f/TON_ID"
+      name="contact"
       method="POST"
+      action="/merci/"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
       data-aos="fade-up"
     >
+      <!-- Champ piège anti-spam : invisible pour les visiteurs, rempli par les robots -->
+      <p hidden>
+        <label>Ne pas remplir : <input name="bot-field" /></label>
+      </p>
+
       <div class="duo">
         <div class="champ">
           <label for="prenom">Prénom</label>
@@ -109,3 +117,4 @@ import Layout from "../layouts/Layout.astro";
     align-self: flex-start;
   }
 </style>
+ 
