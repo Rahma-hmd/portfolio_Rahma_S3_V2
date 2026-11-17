@@ -3,23 +3,39 @@ import { liens } from "../data/navigation.js";
 
 const pageActuelle = Astro.url.pathname;
 
-// Un lien est "actif" si on est sur sa page
 function estActif(href) {
-  if (href === "/") return pageActuelle === "/";
+  if (href === "/") {
+    return pageActuelle === "/";
+  }
+
   return pageActuelle.startsWith(href);
 }
 ---
 
 <header class="header">
-  <div class="container header__inner">
-    <a href="/" class="logo">PORTFOLIO</a>
 
-    <!-- Bouton burger : visible seulement sur mobile et tablette -->
+  <div class="header__inner">
+
+    <!-- LOGO -->
+    <a
+      href="/"
+      class="header__logo-link"
+      aria-label="Retour à l'accueil"
+    >
+      <img
+        src="/images/logoportfolio.svg"
+        alt="Portfolio Rahma Hamdi"
+        class="header__logo"
+      />
+    </a>
+
+
+    <!-- BOUTON MENU MOBILE -->
     <button
       class="burger"
       type="button"
       aria-expanded="false"
-      aria-controls="menu"
+      aria-controls="menu-mobile"
       aria-label="Ouvrir le menu"
     >
       <span></span>
@@ -27,158 +43,872 @@ function estActif(href) {
       <span></span>
     </button>
 
-    <nav id="menu" class="menu" aria-label="Navigation principale">
-      <ul class="nav">
-        {liens.map((lien) => (
+
+    <!-- NAVIGATION DESKTOP -->
+    <nav
+      class="menu-desktop"
+      aria-label="Navigation principale"
+    >
+      <ul class="nav-desktop">
+
+        {
+          liens.map((lien) => (
+            <li>
+              <a
+                href={lien.href}
+                aria-current={
+                  estActif(lien.href)
+                    ? "page"
+                    : undefined
+                }
+              >
+                {lien.nom}
+              </a>
+            </li>
+          ))
+        }
+
+      </ul>
+    </nav>
+
+  </div>
+
+
+  <!-- FOND SOMBRE -->
+  <button
+    class="menu-overlay"
+    type="button"
+    aria-label="Fermer le menu"
+    tabindex="-1"
+  ></button>
+
+
+  <!-- MENU QUI ARRIVE DEPUIS LA DROITE -->
+  <nav
+    id="menu-mobile"
+    class="menu-mobile"
+    aria-label="Navigation mobile"
+  >
+
+    <div class="menu-mobile__top">
+
+      <img
+        src="/images/logoportfolio.svg"
+        alt=""
+        class="menu-mobile__logo"
+      />
+
+      <button
+        class="menu-close"
+        type="button"
+        aria-label="Fermer le menu"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <ul class="nav-mobile">
+
+      {
+        liens.map((lien, index) => (
           <li>
             <a
               href={lien.href}
-              class="nav__lien"
-              aria-current={estActif(lien.href) ? "page" : undefined}
+              class="nav-mobile__link"
+              aria-current={
+                estActif(lien.href)
+                  ? "page"
+                  : undefined
+              }
             >
-              {lien.nom}
+              <span class="nav-mobile__number">
+                0{index + 1}
+              </span>
+
+              <span>
+                {lien.nom}
+              </span>
             </a>
           </li>
-        ))}
-      </ul>
-    </nav>
-  </div>
+        ))
+      }
+
+    </ul>
+
+  </nav>
+
 </header>
 
+
 <script>
-  // Ouvre / ferme le menu mobile
-  const bouton = document.querySelector(".burger");
-  const menu = document.querySelector(".menu");
+  const burger =
+    document.querySelector(".burger");
+
+  const menu =
+    document.querySelector(".menu-mobile");
+
+  const overlay =
+    document.querySelector(".menu-overlay");
+
+  const closeButton =
+    document.querySelector(".menu-close");
+
+  const links =
+    document.querySelectorAll(
+      ".nav-mobile__link"
+    );
+
+
+  function ouvrirMenu() {
+
+    menu?.classList.add(
+      "menu-mobile--open"
+    );
+
+    overlay?.classList.add(
+      "menu-overlay--visible"
+    );
+
+    burger?.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+
+    burger?.setAttribute(
+      "aria-label",
+      "Fermer le menu"
+    );
+
+    document.body.classList.add(
+      "menu-open"
+    );
+  }
+
 
   function fermerMenu() {
-    menu.classList.remove("ouvert");
-    bouton.setAttribute("aria-expanded", "false");
-    bouton.setAttribute("aria-label", "Ouvrir le menu");
+
+    menu?.classList.remove(
+      "menu-mobile--open"
+    );
+
+    overlay?.classList.remove(
+      "menu-overlay--visible"
+    );
+
+    burger?.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    burger?.setAttribute(
+      "aria-label",
+      "Ouvrir le menu"
+    );
+
+    document.body.classList.remove(
+      "menu-open"
+    );
   }
 
-  bouton.addEventListener("click", () => {
-    const ouvert = menu.classList.toggle("ouvert");
-    bouton.setAttribute("aria-expanded", ouvert);
-    bouton.setAttribute("aria-label", ouvert ? "Fermer le menu" : "Ouvrir le menu");
+
+  burger?.addEventListener(
+    "click",
+    () => {
+
+      const menuOuvert =
+        menu?.classList.contains(
+          "menu-mobile--open"
+        );
+
+      if (menuOuvert) {
+        fermerMenu();
+      } else {
+        ouvrirMenu();
+      }
+
+    }
+  );
+
+
+  overlay?.addEventListener(
+    "click",
+    fermerMenu
+  );
+
+
+  closeButton?.addEventListener(
+    "click",
+    fermerMenu
+  );
+
+
+  links.forEach((link) => {
+
+    link.addEventListener(
+      "click",
+      fermerMenu
+    );
+
   });
 
-  // La touche Échap ferme le menu (accessibilité clavier)
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") fermerMenu();
-  });
+
+  document.addEventListener(
+    "keydown",
+    (event) => {
+
+      if (event.key === "Escape") {
+        fermerMenu();
+      }
+
+    }
+  );
 </script>
 
+
 <style>
+
+  /* =====================================
+     HEADER
+     ===================================== */
+
   .header {
     position: sticky;
+
     top: 0;
-    z-index: 10;
-    background: var(--orange);
-    border-bottom: 4px solid var(--brun);
+
+    z-index: 1000;
+
+    width: 100%;
+
+    background:
+      var(--orange);
+
+    border-bottom:
+      2px solid
+      var(--brun);
   }
+
 
   .header__inner {
+
+    width:
+      min(
+        calc(100% - 2rem),
+        1400px
+      );
+
+    min-height: 58px;
+
+    margin-inline: auto;
+
     display: flex;
+
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding-block: 0.9rem;
+
+    justify-content:
+      space-between;
+
+    gap: 2rem;
+
+    padding-block:
+      0.55rem;
   }
 
-  /* ---------- DESKTOP (par défaut) ---------- */
-  .nav {
+
+  /* =====================================
+     LOGO
+     ===================================== */
+
+  .header__logo-link {
+
+    display: block;
+
+    flex-shrink: 0;
+
+    line-height: 0;
+  }
+
+
+  .header__logo {
+
+    display: block;
+
+    width:
+      clamp(
+        78px,
+        7vw,
+        105px
+      );
+
+    height: auto;
+  }
+
+
+  /* =====================================
+     NAV DESKTOP
+     ===================================== */
+
+  .nav-desktop {
+
+    margin: 0;
+
+    padding: 0;
+
     display: flex;
-    gap: 0.6rem;
+
+    align-items: center;
+
+    gap:
+      clamp(
+        0.7rem,
+        1.5vw,
+        1.3rem
+      );
+
     list-style: none;
   }
 
-  .nav__lien {
+
+  .nav-desktop li {
+
+    flex-shrink: 0;
+  }
+
+
+  .nav-desktop a {
+
+    position: relative;
+
     display: block;
-    padding: 0.5rem 0.7rem;
-    font-family: var(--font-pixel);
-    font-size: 0.6875rem;
-    color: var(--brun);
+
+    font-family:
+      var(--font-pixel);
+
+    font-size:
+      clamp(
+        0.45rem,
+        0.55vw,
+        0.58rem
+      );
+
+    line-height: 1.4;
+
+    color:
+      var(--noir);
+
     text-decoration: none;
-    border: 3px solid var(--brun);
-    transition: transform 0.1s steps(2);
+
+    white-space: nowrap;
   }
 
-  .nav__lien:hover {
-    transform: translateY(-2px);
-    box-shadow: 3px 3px 0 var(--brun);
+
+  .nav-desktop a::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: -5px;
+
+    width: 0;
+
+    height: 2px;
+
+    background:
+      var(--brun);
+
+    transition:
+      width
+      0.15s
+      steps(4);
   }
 
-  .nav__lien[aria-current="page"] {
-    background: var(--brun);
-    color: var(--orange);
+
+  .nav-desktop a:hover::after,
+  .nav-desktop a[aria-current="page"]::after {
+
+    width: 100%;
   }
 
-  /* Le burger est caché sur desktop */
+
+  /* =====================================
+     BURGER
+     ===================================== */
+
   .burger {
+
     display: none;
   }
 
-  /* ---------- TABLETTE + MOBILE (moins de 900 px) ---------- */
-  @media (max-width: 900px) {
-    /* Header plus fin */
+
+  /* =====================================
+     MENU MOBILE
+     ===================================== */
+
+  .menu-mobile,
+  .menu-overlay {
+
+    display: none;
+  }
+
+
+  /* =====================================
+     MOBILE
+     ===================================== */
+
+  @media (max-width: 800px) {
+
     .header__inner {
-      padding-block: 0.6rem;
-      gap: 0.6rem;
+
+      width:
+        calc(100% - 1rem);
+
+      min-height: 44px;
+
+      padding-block:
+        0.25rem;
     }
 
-    /* Burger pixel : 3 barres carrées */
+
+    /* Logo plus discret */
+
+    .header__logo {
+
+      width:
+        clamp(
+          55px,
+          17vw,
+          68px
+        );
+    }
+
+
+    /* Cache le menu desktop */
+
+    .menu-desktop {
+
+      display: none;
+    }
+
+
+    /* =========================
+       BURGER
+       ========================= */
+
     .burger {
+
+      width: 30px;
+
+      height: 30px;
+
+      padding: 5px;
+
       display: flex;
+
       flex-direction: column;
+
       justify-content: center;
-      gap: 4px;
-      width: 40px;
-      height: 40px;
-      padding: 0 8px;
-      background: var(--orange);
-      border: 3px solid var(--brun);
-      box-shadow: 3px 3px 0 var(--brun);
+
+      gap: 3px;
+
+      background:
+        transparent;
+
+      border:
+        2px solid
+        var(--brun);
+
+      box-shadow:
+        2px
+        2px
+        0
+        var(--brun);
+
       cursor: pointer;
     }
 
+
     .burger span {
-      height: 3px;
-      background: var(--brun);
-    }
 
-    /* Bouton enfoncé quand le menu est ouvert */
-    .burger[aria-expanded="true"] {
-      background: var(--brun);
-      box-shadow: none;
-      transform: translate(3px, 3px);
-    }
-
-    .burger[aria-expanded="true"] span {
-      background: var(--orange);
-    }
-
-    /* Le menu est caché tant qu'on n'a pas cliqué */
-    .menu {
-      display: none;
-      width: 100%;
-    }
-
-    .menu.ouvert {
       display: block;
+
+      width: 100%;
+
+      height: 2px;
+
+      background:
+        var(--brun);
     }
 
-    /* Les liens passent en colonne, pleine largeur */
-    .nav {
+
+    .burger:active {
+
+      transform:
+        translate(
+          2px,
+          2px
+        );
+
+      box-shadow: none;
+    }
+
+
+    /* =========================
+       OVERLAY
+       ========================= */
+
+    .menu-overlay {
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 9998;
+
+      display: block;
+
+      padding: 0;
+
+      background:
+        rgba(
+          0,
+          0,
+          0,
+          0.58
+        );
+
+      border: 0;
+
+      opacity: 0;
+
+      visibility: hidden;
+
+      pointer-events: none;
+
+      transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+    }
+
+
+    .menu-overlay--visible {
+
+      opacity: 1;
+
+      visibility: visible;
+
+      pointer-events: auto;
+    }
+
+
+    /* =========================
+       DRAWER DROITE
+       ========================= */
+
+    .menu-mobile {
+
+      position: fixed;
+
+      top: 0;
+
+      right: 0;
+
+      z-index: 9999;
+
+      width:
+        min(
+          76vw,
+          280px
+        );
+
+      height: 100dvh;
+
+      display: flex;
+
       flex-direction: column;
-      gap: 0.4rem;
-      padding-block: 0.5rem 0.25rem;
-      border-top: 3px dashed var(--brun);
+
+      padding:
+        1rem
+        0.8rem;
+
+      background:
+        var(--orange);
+
+      border-left:
+        3px solid
+        var(--brun);
+
+      box-shadow:
+        -6px
+        0
+        0
+        rgba(
+          0,
+          0,
+          0,
+          0.2
+        );
+
+      transform:
+        translateX(110%);
+
+      transition:
+        transform
+        0.28s
+        cubic-bezier(
+          0.22,
+          1,
+          0.36,
+          1
+        );
     }
 
-    .nav__lien {
-      padding: 0.75rem 0.9rem;
-      font-size: 0.625rem;
+
+    .menu-mobile--open {
+
+      transform:
+        translateX(0);
     }
+
+
+    /* =========================
+       HAUT DU MENU
+       ========================= */
+
+    .menu-mobile__top {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content:
+        space-between;
+
+      gap: 1rem;
+
+      padding-bottom:
+        0.8rem;
+
+      border-bottom:
+        2px solid
+        var(--brun);
+    }
+
+
+    .menu-mobile__logo {
+
+      width: 62px;
+
+      height: auto;
+    }
+
+
+    .menu-close {
+
+      width: 30px;
+
+      height: 30px;
+
+      display: grid;
+
+      place-items: center;
+
+      padding: 0;
+
+      font-family:
+        var(--font-pixel);
+
+      font-size: 0.8rem;
+
+      line-height: 1;
+
+      color:
+        var(--brun);
+
+      background:
+        transparent;
+
+      border:
+        2px solid
+        var(--brun);
+
+      cursor: pointer;
+    }
+
+
+    /* =========================
+       LIENS MENU
+       ========================= */
+
+    .nav-mobile {
+
+      margin: 0;
+
+      padding:
+        1rem
+        0
+        0;
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 0.4rem;
+
+      list-style: none;
+    }
+
+
+    .nav-mobile__link {
+
+      width: 100%;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 0.75rem;
+
+      padding:
+        0.7rem
+        0.6rem;
+
+      font-family:
+        var(--font-pixel);
+
+      font-size:
+        0.48rem;
+
+      line-height: 1.4;
+
+      color:
+        var(--noir);
+
+      text-decoration: none;
+
+      border:
+        2px solid
+        transparent;
+
+      transition:
+        background
+        0.12s
+        steps(2),
+        transform
+        0.12s
+        steps(2);
+    }
+
+
+    .nav-mobile__number {
+
+      font-size:
+        0.34rem;
+
+      opacity: 0.55;
+    }
+
+
+    .nav-mobile__link:hover {
+
+      transform:
+        translateX(4px);
+    }
+
+
+    .nav-mobile__link[
+      aria-current="page"
+    ] {
+
+      background:
+        var(--brun);
+
+      color:
+        var(--orange);
+    }
+
+  }
+
+
+  /* =====================================
+     MOBILE 430
+     ===================================== */
+
+  @media (max-width: 430px) {
+
+    .header__inner {
+
+      min-height: 41px;
+    }
+
+
+    .header__logo {
+
+      width:
+        clamp(
+          50px,
+          16vw,
+          60px
+        );
+    }
+
+
+    .burger {
+
+      width: 28px;
+
+      height: 28px;
+    }
+
+
+    .menu-mobile {
+
+      width:
+        min(
+          78vw,
+          250px
+        );
+    }
+
+  }
+
+
+  /* =====================================
+     BLOQUE LE SCROLL
+     ===================================== */
+
+  :global(body.menu-open) {
+
+    overflow: hidden;
+  }
+
+
+  /* =====================================
+     REDUCED MOTION
+     ===================================== */
+
+  @media (
+    prefers-reduced-motion:
+    reduce
+  ) {
+
+    .menu-mobile {
+
+      transition: none;
+    }
+
+
+    .menu-overlay {
+
+      transition: none;
+    }
+
+  }
+ .header__logo {
+    width: clamp(100px, 26vw, 170px);
   }
 </style>

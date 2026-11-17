@@ -5,30 +5,27 @@ const annee = new Date().getFullYear();
 ---
 
 <footer class="footer">
-  <div class="container footer__inner">
-    <!-- Gauche : logo + copyright -->
-    <div class="footer__marque">
-      <a href="/" class="logo">PORTFOLIO</a>
-      <p class="footer__copy">{annee} © Rahma Hamdi</p>
+  <div class="footer__inner">
+    <!-- LOGO + COPYRIGHT -->
+    <div class="footer__brand">
+      <a href="/" class="footer__logo-link" aria-label="Retour à l'accueil">
+        <img
+          src="/images/logoportfolio.svg"
+          alt="Portfolio Rahma Hamdi"
+          class="footer__logo"
+        />
+      </a>
+      <p class="footer__copyright">{annee} © Rahma Hamdi</p>
     </div>
 
-    <!-- Droite : déco posée sur une ligne, liens en dessous -->
-    <div class="footer__droite">
-      <img
-        src="/images/footer-deco.png"
-        alt=""
-        width="64"
-        height="32"
-        class="footer__deco"
-      />
-      <nav aria-label="Pied de page">
-        <ul class="footer__liens">
-          {liens.map((lien) => (
-            <li><a href={lien.href}>{lien.nom}</a></li>
-          ))}
-        </ul>
-      </nav>
-    </div>
+    <!-- NAVIGATION -->
+    <nav class="footer__nav" aria-label="Navigation pied de page">
+      <ul class="footer__links">
+        {liens.map((lien) => (
+          <li><a href={lien.href}>{lien.nom}</a></li>
+        ))}
+      </ul>
+    </nav>
   </div>
 </footer>
 
@@ -36,92 +33,96 @@ const annee = new Date().getFullYear();
   .footer {
     margin-top: 4rem;
     background: var(--orange);
+    border-top: 2px solid var(--brun);
+  }
+
+  /* ---------- DESKTOP : logo à gauche, liens à droite ---------- */
+  .footer__inner {
+    width: min(100% - 2rem, 1400px);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-block: 1rem;
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .footer__logo-link {
+    display: block;
+    line-height: 0;
+  }
+
+  .footer__logo {
+    width: clamp(90px, 9vw, 120px);
+    height: auto;
+  }
+
+  .footer__copyright {
+    font-family: var(--font-pixel);
+    font-size: 0.5625rem; /* 9 px */
+    line-height: 1.4;
     color: var(--noir);
   }
 
-  /* ---------- DESKTOP ---------- */
-  .footer__inner {
+  .footer__links {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    padding-block: 1.25rem;
-  }
-
-  .footer__copy {
-    margin-top: 0.4rem;
-    font-family: var(--font-pixel);
-    font-size: 0.5625rem; /* 9 px */
-  }
-
-  .footer__droite {
-    display: flex;
-    flex-direction: column;
-    width: min(100%, 360px);
-  }
-
-  /* La déco est posée sur la ligne, à droite */
-  .footer__deco {
-    align-self: flex-end;
-    width: auto;
-    height: 32px;
-    image-rendering: pixelated;
-  }
-
-  /* La ligne noire sous la déco */
-  .footer__liens {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-    padding-top: 0.4rem;
-    border-top: 2px solid var(--noir);
+    flex-wrap: wrap; /* les liens passent à la ligne au lieu de se chevaucher */
+    justify-content: flex-end;
+    gap: 0.5rem 1.25rem;
     list-style: none;
   }
 
-  .footer__liens a {
+  .footer__links a {
     font-family: var(--font-pixel);
     font-size: 0.625rem; /* 10 px */
+    line-height: 1.4;
     color: var(--noir);
     text-decoration: none;
   }
 
-  .footer__liens a:hover {
+  .footer__links a:hover {
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
   }
 
-  /* ---------- MOBILE (moins de 640 px) ---------- */
-  @media (max-width: 640px) {
+  /* ---------- MOBILE (moins de 700 px) : tout en colonne, centré ---------- */
+  @media (max-width: 700px) {
     .footer {
       margin-top: 2.5rem;
     }
 
     .footer__inner {
       flex-direction: column;
+      gap: 0.75rem;
+      padding-block: 1.25rem;
+    }
+
+    .footer__brand {
       align-items: center;
-      text-align: center;
-      gap: 1.25rem;
     }
 
-    .footer__droite {
-      width: min(100%, 300px);
+    .footer__logo {
+      width: 96px;
     }
 
-    .footer__deco {
-      height: 26px;
-    }
-
-    .footer__liens {
+    .footer__links {
       justify-content: center;
       gap: 0 0.25rem;
     }
 
     /* Zone de clic plus grande au doigt */
-    .footer__liens a {
+    .footer__links a {
       display: block;
-      padding: 0.5rem 0.4rem;
-      font-size: 0.5625rem;
+      padding: 0.6rem 0.4rem;
+      font-size: 0.5625rem; /* 9 px */
     }
   }
 </style>
