@@ -1,12 +1,14 @@
 ---
 // Un projet = un dossier pixel art cliquable.
 // Le nom du projet change, mais le dessin du dossier reste le même.
-const { nom, type, href, delai = 0 } = Astro.props;
+const { nom, type, href, delai = 0, copie = false } = Astro.props;
+
 ---
 
 <div class="emplacement">
 
-  <a href={href} class="dossier">
+    <a href={href} class="dossier" tabindex={copie ? -1 : undefined}>
+
     <span class="dossier__onglet"></span>
     <span class="dossier__corps">
       <span class="dossier__nom">{nom}</span>

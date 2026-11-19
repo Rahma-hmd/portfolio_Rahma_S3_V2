@@ -1,345 +1,333 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SkillCard from "../components/SkillCard.astro";
 
-// Toutes les infos des 5 cartes sont rangées ici.
-// La boucle plus bas crée une SkillCard pour chaque domaine.
+/* ---------- Les 5 compétences du BUT MMI ---------- */
 const domaines = [
   {
-    number: "01",
-    title: "Comprendre",
-    subtitle: "Analyser avant de créer.",
-    description:
-      "Avant de proposer une solution, je cherche à comprendre le marché, les utilisateurs, les concurrents et les objectifs du projet.",
-    skills: [
-      "Veille",
-      "Étude de marché",
-      "Analyse des concurrents",
-      "Analyse des cibles",
-      "Parcours utilisateur",
-      "Stratégie de communication",
-    ],
-    icon: [
-      "..###...",
-      ".#...#..",
-      "#.....#.",
-      "#.....#.",
-      "#.....#.",
-      ".#...#..",
-      "..###.#.",
-      "......##",
-    ],
-    projet: {
-      nom: "ZOZZO",
-      detail: "Étude de marché, veille et analyse des cibles.",
-      href: "/projets/zozzo",
-    },
-  },
-  {
-    number: "02",
-    title: "Concevoir",
-    subtitle: "Transformer une analyse en solution.",
-    description:
-      "À partir des recherches réalisées, je construis une réponse cohérente avec les besoins du projet et de ses utilisateurs.",
-    skills: [
-      "Recommandation stratégique",
-      "UX",
-      "Arborescence",
-      "Wireframes",
-      "Maquettes Figma",
-      "Référencement",
-      "Stratégie social media",
-    ],
-    icon: [
-      "########",
-      "#..#...#",
-      "#..#...#",
-      "####...#",
-      "#..#####",
-      "#..#...#",
-      "#..#...#",
-      "########",
+    nom: "Comprendre",
+    description: "Analyser un marché, des utilisateurs et leurs besoins.",
+    competences: [
+      "Étude de marché et analyse de la concurrence",
+      "Création de personas",
+      "Analyse des besoins réels (entretiens)",
+      "Veille digitale",
     ],
   },
   {
-    number: "03",
-    title: "Exprimer",
-    subtitle: "Donner une identité aux idées.",
-    description:
-      "Je transforme une stratégie en contenus visuels, éditoriaux et numériques adaptés au support et au public ciblé.",
-    skills: [
-      "Direction artistique",
+    nom: "Concevoir",
+    description: "Imaginer une réponse adaptée à un besoin.",
+    competences: [
+      "Stratégie de communication (messages clés, plan de diffusion)",
+      "Communication et promotion de marque",
+      "Gestion des réseaux sociaux",
+      "Traduction des besoins en fonctionnalités",
+    ],
+  },
+  {
+    nom: "Exprimer",
+    description: "Faire passer un message avec les médias numériques.",
+    competences: [
+      "Création de contenu photo et vidéo",
+      "Création de contenus courts",
+      "Montage vidéo",
+      "Retouche photo",
+      "Prise de son au micro professionnel",
+      "Installation d'un éclairage professionnel",
       "Identité visuelle",
-      "Création de contenu",
-      "Réseaux sociaux",
-      "Rédaction",
-      "Vidéo",
-      "CapCut",
-      "Figma",
-    ],
-    icon: [
-      "...##...",
-      "...##...",
-      "########",
-      ".######.",
-      "..####..",
-      ".##..##.",
-      ".#....#.",
-      "........",
+      "Création d'affiches",
+      "Visuels pour réseaux sociaux",
+      "Mise en page print et numérique",
     ],
   },
   {
-    number: "04",
-    title: "Développer",
-    subtitle: "Transformer une maquette en expérience web.",
-    description:
-      "Je développe des interfaces web responsive à partir de mes maquettes en privilégiant une structure simple, performante et compréhensible.",
-    skills: [
-      "HTML",
-      "CSS",
-      "Astro",
-      "JavaScript simple",
-      "Responsive design",
-      "Git / GitHub",
-      "Accessibilité",
-      "SEO",
-      "Performance web",
-    ],
-    icon: [
-      "........",
-      "..#..#..",
-      ".#....#.",
-      "#......#",
-      ".#....#.",
-      "..#..#..",
-      "...##...",
+    nom: "Développer",
+    description: "Réaliser des sites et des interfaces web.",
+    competences: [
+      "Intégration HTML et CSS natif",
+      "Site statique avec Astro",
+      "Animations au scroll (AOS, GSAP)",
     ],
   },
   {
-    number: "05",
-    title: "Entreprendre",
-    subtitle: "Faire avancer un projet.",
-    description:
-      "Je sais organiser les différentes étapes d'un projet, travailler avec des contraintes et présenter les choix réalisés.",
-    skills: [
-      "Gestion de projet",
-      "Organisation",
-      "Budget",
-      "Travail en équipe",
-      "Présentation orale",
-      "Relation professionnelle",
-      "Planification",
-    ],
-    icon: [
-      "##......",
-      "#####...",
-      "#######.",
-      "#####...",
-      "##......",
-      "#.......",
-      "#.......",
-      "###.....",
+    nom: "Entreprendre",
+    description: "Travailler en équipe et organiser un projet.",
+    competences: [
+      "Travail en équipe de trois",
+      "Organisation d'un projet (planning, répartition des tâches)",
     ],
   },
 ];
+
+/* ---------- Les outils (images dans public/images/outils/) ---------- */
+const outils = [
+  { nom: "Illustrator", image: "/images/outils/illustrator.png" },
+  { nom: "Photoshop", image: "/images/outils/photoshop.png" },
+  { nom: "Figma", image: "/images/outils/figma.png" },
+  { nom: "Canva", image: "/images/outils/canva.png" },
+  { nom: "DaVinci Resolve", image: "/images/outils/davinci-resolve.png" },
+];
+
+/* Nombre de compétences affichées en même temps dans une carte */
+const PAR_PAGE = 4;
+
+/* Découpe une liste en paquets de 4 :
+   [a, b, c, d, e, f] devient [[a, b, c, d], [e, f]] */
+const decouper = (liste) => {
+  const pages = [];
+  for (let i = 0; i < liste.length; i += PAR_PAGE) {
+    pages.push(liste.slice(i, i + PAR_PAGE));
+  }
+  return pages;
+};
+
+/* Transforme 0, 1, 2 en "01", "02", "03" */
+const numero = (i) => String(i + 1).padStart(2, "0");
 ---
 
-<Layout
-  title="Compétences — Rahma Hamdi"
-  description="Mes compétences en BUT MMI : comprendre, concevoir, exprimer, développer et entreprendre."
->
-  <!-- INTRODUCTION -->
-  <section class="intro container">
-    <span class="pixel-star" style="top: 22%; right: 10%;"></span>
-    <span class="pixel-star" style="top: 55%; right: 22%;"></span>
-    <span class="pixel-star" style="bottom: 18%; right: 6%;"></span>
+<Layout title="Compétences — Rahma Hamdi">
+  <div class="container">
 
-    <p class="label">Écran de progression</p>
-    <h1>Mes compétences</h1>
-    <p class="intro__sous-titre">
-      Des compétences développées entre stratégie, création et numérique.
-    </p>
-    <p class="intro__texte">
-      Mon parcours en BUT MMI m'a permis de développer un profil polyvalent, allant de
-      l'analyse et de la stratégie de communication jusqu'à la création de contenus et
-      au développement web.
-    </p>
+    <!-- EN-TÊTE -->
+    <section class="section">
+      <p class="label">Compétences</p>
+      <h1 class="competences-titre">Mes compétences</h1>
+    </section>
 
-    <!-- Jauge : 2e année sur 3 -->
-    <div class="progression">
-      <span class="label">BUT MMI</span>
-      <div class="jauge" role="img" aria-label="Deuxième année sur trois">
-        <span class="plein"></span>
-        <span class="plein"></span>
-        <span></span>
+    <!-- LES 5 DOMAINES -->
+    <section class="section">
+      <div class="competences-grille">
+        {domaines.map((domaine, i) => {
+          const pages = decouper(domaine.competences);
+          return (
+            <article class="pixel-panel domaine">
+              <span class="domaine__num">{numero(i)}</span>
+              <h2>{domaine.nom}</h2>
+              <p>{domaine.description}</p>
+
+              <!-- Les paquets de compétences : un seul est visible à la fois -->
+              <div class="domaine__pages">
+                {pages.map((page, p) => (
+                  <ul class={p === 0 ? "domaine__page est-active" : "domaine__page"}>
+                    {page.map((competence) => (
+                      <li>{competence}</li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+
+              <!-- Le bouton n'existe que s'il y a plus de 4 compétences -->
+              {pages.length > 1 && (
+                <button class="domaine__suite" type="button">
+                  ▼ Suite <span class="domaine__compteur">1/{pages.length}</span>
+                </button>
+              )}
+            </article>
+          );
+        })}
       </div>
-      <span class="label">Année 2/3</span>
-    </div>
+    </section>
 
-    <ol class="parcours">
-      <li>Analyser</li>
-      <li>Concevoir</li>
-      <li>Créer</li>
-      <li>Développer</li>
-      <li>Gérer un projet</li>
-    </ol>
-  </section>
+    <!-- LES OUTILS -->
+    <section class="section">
+      <h2 class="competences-h2">Outils que je sais utiliser</h2>
 
-  <div class="container"><div class="pixel-divider"></div></div>
+      <ul class="outils">
+        {outils.map((outil) => (
+          <li class="outil">
+            <img src={outil.image} alt="" width="56" height="56" />
+            <span>{outil.nom}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-  <!-- LES 5 DOMAINES -->
-  <section class="container section">
-    <p class="label">Arbre de compétences</p>
-    <h2>Les 5 domaines du BUT MMI</h2>
+    <!-- LIEN VERS LES PROJETS -->
+    <section class="section">
+      <a class="pixel-btn" href="/projets">Voir mes projets</a>
+    </section>
 
-    <div class="grille">
-      {domaines.map((domaine, index) => (
-        <SkillCard
-          number={domaine.number}
-          title={domaine.title}
-          subtitle={domaine.subtitle}
-          description={domaine.description}
-          skills={domaine.skills}
-          icon={domaine.icon}
-          projet={domaine.projet}
-          delai={index * 100}
-        />
-      ))}
-    </div>
-  </section>
-
-  <!-- SECTION FINALE -->
-  <section class="fin container section" data-aos="fade-up">
-    <h2 class="fin__titre">Ces compétences prennent tout leur sens dans mes projets.</h2>
-    <a href="/projets" class="pixel-btn">Découvrir mes projets →</a>
-  </section>
+  </div>
 </Layout>
 
 <script>
-  import { gsap } from "gsap";
+  /* Pour chaque carte : le bouton affiche le paquet de compétences suivant */
+  document.querySelectorAll(".domaine").forEach((carte) => {
+    const bouton = carte.querySelector(".domaine__suite");
+    if (!bouton) return; // pas de bouton : la carte n'a qu'un seul paquet
 
-  const moinsDanimations = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const pages = carte.querySelectorAll(".domaine__page");
+    const compteur = carte.querySelector(".domaine__compteur");
+    let actuelle = 0;
 
-  if (!moinsDanimations) {
-    // Intro : les éléments arrivent un par un, par petits sauts (steps)
-    gsap.from(".intro > *:not(.pixel-star)", {
-      y: 12,
-      opacity: 0,
-      duration: 0.4,
-      ease: "steps(4)",
-      stagger: 0.1,
+    bouton.addEventListener("click", () => {
+      pages[actuelle].classList.remove("est-active");
+      actuelle = (actuelle + 1) % pages.length; // après le dernier, retour au premier
+      pages[actuelle].classList.add("est-active");
+      compteur.textContent = `${actuelle + 1}/${pages.length}`;
     });
-
-    // Étoiles : clignotement doux
-    gsap.to(".pixel-star", {
-      opacity: 0.2,
-      duration: 0.6,
-      ease: "steps(2)",
-      repeat: -1,
-      yoyo: true,
-      stagger: 0.4,
-    });
-  }
+  });
 </script>
 
 <style>
-  .intro {
-    position: relative;
-    padding-top: clamp(3rem, 8vw, 6rem);
-    padding-bottom: 2.5rem;
+  .competences-titre {
+    margin: 0.75rem 0 1rem;
+    font-family: var(--font-pixel);
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    line-height: 1.3;
+    color: var(--orange);
+    text-shadow: 3px 3px 0 var(--brun);
   }
 
-  .intro h1 {
-    margin-block: 0.75rem 1rem;
+  .competences-h2 {
+    margin-bottom: 1.5rem;
+    font-family: var(--font-pixel);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--creme);
   }
 
-  .intro__sous-titre {
-    font-weight: 600;
-    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.25rem);
+  /* ---------- Cartes des domaines ---------- */
+  .competences-grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-auto-rows: 1fr; /* toutes les lignes ont la même hauteur */
+    gap: 1.75rem;
+  }
+
+  .domaine {
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+    transition: transform 0.15s steps(3), box-shadow 0.15s steps(3);
+  }
+
+  /* Au survol : la carte se soulève et son ombre grandit */
+  .domaine:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--orange);
+  }
+
+  .domaine:hover h2 {
     color: var(--orange);
   }
 
-  .intro__texte {
-    margin-top: 0.75rem;
-    max-width: 60ch;
-    opacity: 0.9;
+  .domaine__num {
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    color: var(--orange);
   }
 
-  .progression {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2rem;
+  .domaine h2 {
+    margin: 0.7rem 0 0.5rem;
+    font-family: var(--font-pixel);
+    font-size: 0.8rem;
+    color: var(--creme);
   }
 
-  .jauge {
-    display: flex;
-    gap: 4px;
-    padding: 4px;
-    border: 3px solid var(--creme);
+  .domaine p {
+    margin: 0 0 0.8rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--orange-clair);
   }
 
-  .jauge span {
-    width: 28px;
-    height: 12px;
-    background: rgba(255, 237, 224, 0.12);
+  /* Les paquets sont superposés dans la même case :
+     la carte garde toujours la hauteur du paquet le plus long */
+  .domaine__pages {
+    display: grid;
+    margin-bottom: 1rem;
   }
 
-  .jauge .plein {
-    background: var(--orange);
-  }
-
-  .parcours {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
+  .domaine__page {
+    grid-area: 1 / 1;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
     list-style: none;
   }
 
-  .parcours li {
+  .domaine__page.est-active {
+    visibility: visible;
+  }
+
+  .domaine__page li {
+    padding: 0.5rem 0;
+    border-top: 2px dashed var(--brun);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* Bouton "Suite", toujours collé en bas de la carte */
+  .domaine__suite {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 0.5rem 0.7rem;
+    background: var(--orange);
+    border: 0;
+    box-shadow: 3px 3px 0 var(--creme);
     font-family: var(--font-pixel);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
+    font-size: 0.5rem;
+    color: var(--noir);
+    cursor: pointer;
   }
 
-  .parcours li:not(:last-child)::after {
-    content: " →";
-    color: var(--orange);
+  .domaine__suite:hover {
+    background: var(--creme);
+    box-shadow: 3px 3px 0 var(--orange);
   }
 
-  h2 {
-    margin-top: 0.5rem;
+  .domaine__suite:focus-visible {
+    outline: 3px solid var(--creme);
+    outline-offset: 3px;
   }
 
-  /* Grille : 1 colonne mobile, 2 tablette, 3 desktop */
-  .grille {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem 2rem;
-    margin-top: 2.5rem;
+  /* ---------- Outils ---------- */
+  .outils {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  @media (min-width: 640px) {
-    .grille { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (min-width: 1024px) {
-    .grille { grid-template-columns: repeat(3, 1fr); }
-  }
-
-  .fin {
+  .outil {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.75rem;
-    text-align: center;
+    gap: 0.8rem;
+    width: 130px;
+    padding: 1rem 0.5rem;
+    background: var(--fond-carte);
+    border: 3px solid var(--brun);
+    transition: transform 0.15s steps(3), border-color 0.15s steps(3);
   }
 
-  .fin__titre {
-    max-width: 30ch;
-    font-size: clamp(0.95rem, 2vw, 1.375rem);
+  .outil:hover {
+    transform: translateY(-4px);
+    border-color: var(--orange);
+  }
+
+  .outil img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    image-rendering: pixelated; /* garde les pixels nets */
+  }
+
+  .outil span {
+    font-family: var(--font-pixel);
+    font-size: 0.5rem;
+    line-height: 1.6;
+    text-align: center;
     color: var(--creme);
+  }
+
+  /* Pas d'animation pour les personnes qui les ont désactivées */
+  @media (prefers-reduced-motion: reduce) {
+    .domaine,
+    .outil {
+      transition: none;
+    }
   }
 </style>

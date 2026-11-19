@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import { projets } from "../data/projets.js";
+import ProjectBarrel from "../components/ProjectBarrel.astro";
 ---
 
 <Layout title="Rahma Hamdi — Portfolio BUT MMI">
@@ -11,12 +10,13 @@ import { projets } from "../data/projets.js";
     <span class="pixel-star" style="top: 30%; right: 6%;"></span>
     <span class="pixel-star" style="bottom: 10%; left: 18%;"></span>
 
-    <div class="hero__panel pixel-panel pixel-panel--orange">
-      <p class="hero__label">Portfolio · BUT MMI</p>
-      <h1>Rahma Hamdi</h1>
-      <p class="hero__texte">Stratégie de communication, création de contenus et web.</p>
-      <a href="#presentation" class="pixel-btn pixel-btn--sombre">Continuer →</a>
-      <p class="hero__clignote">▶ Press start</p>
+    <div class="pixel-onglet hero__onglet">
+      <span class="pixel-onglet__titre">PLAYER 1</span>
+      <div class="hero__panel pixel-panel pixel-panel--orange">
+        <h1>Rahma Hamdi</h1>
+        <a href="#presentation" class="pixel-btn pixel-btn--sombre">Continuer →</a>
+        <p class="hero__clignote">▶ Press start</p>
+      </div>
     </div>
   </section>
 
@@ -44,39 +44,34 @@ import { projets } from "../data/projets.js";
     <p class="label">Sélection</p>
     <h2>Projets</h2>
 
-    <div class="grille">
-      {projets.map((projet, index) => (
-        <ProjectCard
-          nom={projet.nom}
-          type={projet.type}
-          resume={projet.resume}
-          tags={projet.tags}
-          href={`/projets/${projet.slug}`}
-          delai={index * 100}
-        />
-      ))}
-    </div>
+    <ProjectBarrel />
   </section>
 
   <div class="container"><div class="pixel-divider"></div></div>
-    <!-- À PROPOS -->
+
+  <!-- À PROPOS -->
   <section class="container section apropos-accueil" data-aos="fade-up">
     <p class="label">Qui suis-je ?</p>
     <h2>À propos</h2>
-    <img
-      src="/images/accueil-apropos.png"
-      alt="Illustration pixel art de Rahma avec un café, un ordinateur portable et une chaise de bureau"
-      width="561"
-      height="494"
-      loading="lazy"
-      class="apropos-accueil__image"
-    />
+
+    <div class="pixel-onglet apropos-accueil__onglet">
+      <span class="pixel-onglet__titre">RAHMA.PNG</span>
+      <div class="pixel-onglet__cadre">
+        <img
+          src="/images/accueil-apropos.png"
+          alt="Illustration pixel art de Rahma avec un café, un ordinateur portable et une chaise de bureau"
+          width="561"
+          height="494"
+          loading="lazy"
+          class="apropos-accueil__image"
+        />
+      </div>
+    </div>
+
     <a href="/a-propos" class="pixel-btn">En savoir plus →</a>
   </section>
 
   <div class="container"><div class="pixel-divider"></div></div>
-
-
 
   <!-- COMPÉTENCES -->
   <section class="container section" data-aos="fade-up">
@@ -101,14 +96,37 @@ import { projets } from "../data/projets.js";
 </Layout>
 
 <style>
+  /* ---------- Onglet 8 bits : une étiquette posée sur un cadre ---------- */
+  .pixel-onglet__titre {
+    display: block;
+    width: fit-content;
+    padding: 0.5rem 0.8rem;
+    background: var(--creme);
+    font-family: var(--font-pixel);
+    font-size: 0.55rem;
+    color: var(--noir);
+  }
+
+  /* Cadre utilisé autour de l'image "À propos" */
+  .pixel-onglet__cadre {
+    padding: 1rem;
+    background: var(--fond-carte);
+    border: 3px solid var(--creme);
+    box-shadow: 6px 6px 0 var(--orange);
+  }
+
+  /* ---------- Hero ---------- */
   .hero {
     position: relative;
     padding-block: clamp(3rem, 8vw, 6rem);
   }
 
-  .hero__panel {
+  .hero__onglet {
     max-width: 760px;
     margin-inline: auto;
+  }
+
+  .hero__panel {
     padding: clamp(2.5rem, 6vw, 4.5rem) 1.5rem;
     display: flex;
     flex-direction: column;
@@ -117,18 +135,8 @@ import { projets } from "../data/projets.js";
     text-align: center;
   }
 
-  .hero__label {
-    font-family: var(--font-pixel);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-  }
-
   .hero h1 {
     text-shadow: 3px 3px 0 var(--creme);
-  }
-
-  .hero__texte {
-    font-weight: 600;
   }
 
   .hero__clignote {
@@ -141,6 +149,7 @@ import { projets } from "../data/projets.js";
     50% { opacity: 0; }
   }
 
+  /* ---------- Sections ---------- */
   h2 {
     margin-block: 0.5rem 1.5rem;
   }
@@ -151,20 +160,29 @@ import { projets } from "../data/projets.js";
     gap: 1rem;
   }
 
-  .grille {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  /* ---------- À propos ---------- */
+  .apropos-accueil {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
   }
 
-  @media (min-width: 640px) {
-    .grille { grid-template-columns: repeat(2, 1fr); }
+  .apropos-accueil h2 {
+    margin: 0;
   }
 
-  @media (min-width: 1024px) {
-    .grille { grid-template-columns: repeat(3, 1fr); }
+  .apropos-accueil__onglet {
+    width: min(100%, 480px);
   }
 
+  .apropos-accueil__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---------- Compétences ---------- */
   .parcours {
     display: flex;
     flex-wrap: wrap;
@@ -184,26 +202,11 @@ import { projets } from "../data/projets.js";
     color: var(--orange);
   }
 
+  /* ---------- Contact ---------- */
   .contact {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
-    .apropos-accueil {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
-
-  .apropos-accueil h2 {
-    margin: 0;
-  }
-
-  .apropos-accueil__image {
-    width: min(100%, 480px);
-    height: auto;
-  }
-
 </style>

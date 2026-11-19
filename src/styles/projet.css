@@ -1,0 +1,248 @@
+/* ==========================================================
+   projet.css : styles communs aux pages projet
+   (olyvia.astro, washroll.astro et zozzo.astro)
+   ========================================================== */
+
+/* ---------- En-tête ---------- */
+.projet-retour {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    color: var(--orange-clair);
+    text-decoration: none;
+}
+
+.projet-retour:hover {
+    color: var(--creme);
+}
+
+.projet-titre {
+    margin: 0.75rem 0 1rem;
+    font-family: var(--font-pixel);
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    line-height: 1.3;
+    color: var(--orange);
+    text-shadow: 3px 3px 0 var(--brun);
+}
+
+.projet-accroche {
+    max-width: 60ch;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--creme);
+}
+
+/* Les 3 petites cases : Cadre / Équipe / Mon rôle */
+.projet-infos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0 0;
+}
+
+.projet-infos div {
+    padding: 0.9rem 1rem;
+    background: var(--fond-carte);
+    border: 3px solid var(--brun);
+}
+
+.projet-infos dt {
+    margin-bottom: 0.5rem;
+    font-family: var(--font-pixel);
+    font-size: 0.55rem;
+    color: var(--orange);
+}
+
+.projet-infos dd {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* ---------- Titres de section (01, 02, 03) ---------- */
+.projet-h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-pixel);
+    font-size: 0.95rem;
+    color: var(--creme);
+}
+
+.projet-h2 span {
+    padding: 0.4rem 0.5rem;
+    background: var(--orange);
+    color: var(--noir);
+    font-size: 0.7rem;
+}
+
+/* ---------- 01 Présentation : texte + capture ---------- */
+.projet-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.projet-texte p {
+    max-width: 60ch;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.projet-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Emplacement de la capture (pointillés tant qu'il n'y a pas d'image) */
+.projet-visuel {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 10;
+    background: var(--fond-carte);
+    border: 3px dashed var(--brun-clair);
+}
+
+.projet-visuel span {
+    font-family: var(--font-pixel);
+    font-size: 0.55rem;
+    color: var(--brun-clair);
+}
+
+.projet-visuel img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Dès qu'une image est présente : bordure pleine et texte caché */
+.projet-visuel:has(img) {
+    border-style: solid;
+    border-color: var(--orange);
+}
+
+.projet-visuel:has(img) span {
+    display: none;
+}
+
+/* ---------- 02 Mon rôle ---------- */
+.projet-missions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.75rem;
+}
+
+.projet-mission {
+    padding: 1.25rem;
+    transition: transform 0.15s steps(3), box-shadow 0.15s steps(3);
+}
+
+.projet-mission__num {
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    color: var(--orange);
+}
+
+.projet-mission h3 {
+    margin: 0.7rem 0 0.5rem;
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: var(--creme);
+    overflow-wrap: break-word;
+}
+
+.projet-mission p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ---------- 03 Compétences mobilisées ---------- */
+.projet-competences {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+    margin: 0 0 2rem;
+    padding: 0;
+    list-style: none;
+}
+
+.projet-competence {
+    padding: 1.25rem;
+    transition: transform 0.15s steps(3), box-shadow 0.15s steps(3);
+}
+
+.projet-competence p {
+    margin: 0.6rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.projet-competence .projet-competence__preuve {
+    margin-top: 0.8rem;
+    padding-top: 0.6rem;
+    border-top: 2px dashed var(--brun);
+    font-size: 0.8rem;
+    color: var(--orange-clair);
+}
+
+/* ---------- Effet au survol des cartes ---------- */
+.projet-mission:hover,
+.projet-competence:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--orange);
+}
+
+.projet-mission:hover h3 {
+    color: var(--orange);
+}
+
+/* ---------- Navigation entre projets ---------- */
+.projet-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 3px solid var(--brun);
+}
+
+.projet-nav a {
+    font-family: var(--font-pixel);
+    font-size: 0.6rem;
+    color: var(--orange-clair);
+    text-decoration: none;
+}
+
+.projet-nav a:hover {
+    color: var(--creme);
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 760px) {
+
+    .projet-infos,
+    .projet-duo,
+    .projet-competences {
+        grid-template-columns: 1fr;
+    }
+
+    .projet-nav {
+        flex-direction: column;
+    }
+}
+
+/* Pas d'animation pour les personnes qui les ont désactivées */
+@media (prefers-reduced-motion: reduce) {
+
+    .projet-mission,
+    .projet-competence {
+        transition: none;
+    }
+}

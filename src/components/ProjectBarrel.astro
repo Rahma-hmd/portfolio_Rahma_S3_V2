@@ -1,0 +1,116 @@
+---
+// Carrousel 3D "en tonneau" : les dossiers tournent autour d'un cylindre.
+import ProjectCard from "./ProjectCard.astro";
+import { projets } from "../data/projets.js";
+
+// 3 projets, c'est trop peu pour faire un tour complet :
+// on les répète 3 fois, ce qui donne 9 faces.
+const faces = [...projets, ...projets, ...projets];
+const angle = 360 / faces.length; // 40° entre chaque dossier
+---
+
+<div class="barrel">
+  <div class="barrel__anneau">
+    {faces.map((projet, index) => {
+      // Les 3 premiers sont les "vrais" dossiers, les autres sont des copies
+      const copie = index >= projets.length;
+
+      return (
+        <div
+          class="barrel__face"
+          style={`--angle: ${index * angle}deg;`}
+          aria-hidden={copie ? "true" : undefined}
+        >
+          <ProjectCard
+            nom={projet.nom}
+            type={projet.type}
+            href={`/projets/${projet.slug}`}
+            copie={copie}
+          />
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .barrel {
+    --largeur: 200px; /* largeur d'une face */
+    --rayon: 290px;   /* rayon du cylindre */
+
+    perspective: 1100px; /* distance de la "caméra" */
+    overflow: hidden;    /* rien ne dépasse sur les côtés */
+    padding-block: 2.5rem;
+  }
+
+  /* L'anneau qui tourne */
+  .barrel__anneau {
+    position: relative;
+    width: var(--largeur);
+    height: 230px;
+    margin-inline: auto;
+    transform-style: preserve-3d; /* garde les faces en 3D */
+    translate: 0 0 calc(var(--rayon) * -1); /* recule l'anneau : le dossier de devant garde sa vraie taille */
+    animation: tourner 30s linear infinite;
+  }
+
+  @keyframes tourner {
+    from { transform: rotateY(0deg); }
+    to   { transform: rotateY(-360deg); }
+  }
+
+  /* Chaque face est tournée de son angle, puis poussée vers l'extérieur */
+  .barrel__face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotateY(var(--angle)) translateZ(var(--rayon));
+    backface-visibility: hidden; /* on ne voit pas les dossiers de dos */
+    transition: opacity 0.2s steps(2);
+  }
+
+  /* Pause au survol de la souris ou au focus clavier */
+  .barrel:hover .barrel__anneau,
+  .barrel:focus-within .barrel__anneau {
+    animation-play-state: paused;
+  }
+
+  /* Le dossier survolé reste net, les autres s'effacent */
+  .barrel:hover .barrel__face:not(:hover) {
+    opacity: 0.4;
+  }
+
+  /* Mobile : cylindre plus petit */
+  @media (max-width: 640px) {
+    .barrel {
+      --largeur: 170px;
+      --rayon: 240px;
+      perspective: 800px;
+    }
+  }
+
+  /* Moins d'animations : les 3 dossiers sont simplement alignés */
+  @media (prefers-reduced-motion: reduce) {
+    .barrel__anneau {
+      width: auto;
+      height: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      translate: none;
+      animation: none;
+    }
+
+    .barrel__face {
+      position: static;
+      transform: none;
+    }
+
+    .barrel__face[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>

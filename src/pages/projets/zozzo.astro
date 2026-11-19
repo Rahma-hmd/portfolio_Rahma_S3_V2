@@ -1,231 +1,156 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import "../../styles/projet.css";
 
-const missions = ["Étude de marché", "Veille", "Réseaux sociaux", "Stratégie de communication"];
+/* ---------- Données du projet ---------- */
+const projet = {
+  nom: "ZOZZO",
+  type: "Projet collectif · Web app LSF",
+  accroche:
+    "Un projet collectif pour faire découvrir la langue des signes française et sensibiliser à l'inclusion.",
+  presentation:
+    "ZOZZO est un projet collectif autour de la langue des signes française et de l'inclusion des personnes sourdes et malentendantes. Mon objectif était d'analyser le marché existant, de lister les concurrents, de trouver comment se différencier des autres applications et de créer une stratégie de communication avec des cibles bien précises.",
+  lien: "https://zozzo.fr/",
+  instagram: "https://www.instagram.com/zozzolsf/",
+};
 
-const demarche = [
-  "Étude de marché",
-  "Veille",
-  "Analyse des cibles",
-  "Stratégie éditoriale",
-  "Planning réseaux sociaux",
-  "Création de contenus",
+const infos = [
+  { label: "Cadre", valeur: "[À COMPLÉTER : SAÉ et année]" },
+  { label: "Équipe", valeur: "[À COMPLÉTER : noms]" },
+  { label: "Mon rôle", valeur: "Étude de marché, veille, stratégie de communication" },
+];
+
+const missions = [
+  {
+    titre: "Étude de marché",
+    texte: "Analyse du marché, des acteurs, des cibles et des opportunités.",
+  },
+  {
+    titre: "Veille",
+    texte:
+      "Suivi des tendances, des concurrents, des formats et des prises de parole du secteur.",
+  },
+  {
+    titre: "Stratégie de communication",
+    texte:
+      "Définition du positionnement, des objectifs et des piliers éditoriaux.",
+  },
+  {
+    titre: "Réseaux sociaux",
+    texte:
+      "Planning de publication et création de contenus : carrousels, contenus pédagogiques et publications de sensibilisation.",
+  },
 ];
 
 const competences = [
-  { titre: "Veille", texte: "Analyse des tendances, des concurrents, des formats et des prises de parole du secteur." },
-  { titre: "Étude de marché", texte: "Analyse du marché, des acteurs, des cibles et des opportunités." },
-  { titre: "Stratégie de communication", texte: "Définition du positionnement, des objectifs et des piliers éditoriaux." },
-  { titre: "Communication digitale", texte: "Adaptation des contenus et des messages aux différents réseaux sociaux." },
-  { titre: "Création de contenu", texte: "Conception de carrousels, de contenus pédagogiques et de publications de sensibilisation." },
-  { titre: "Analyse des cibles", texte: "Identification des besoins et des attentes des différents publics." },
-  { titre: "Planification éditoriale", texte: "Définition des fréquences de publication et organisation des contenus." },
-  { titre: "Créativité", texte: "Transformation de sujets complexes en contenus simples, visuels et engageants." },
+  {
+    domaine: "Comprendre",
+    detail: "Analyser un marché, des concurrents et des cibles.",
+    preuve: "étude de marché et veille du projet.",
+  },
+  {
+    domaine: "Concevoir",
+    detail:
+      "Construire une stratégie de communication : positionnement, piliers éditoriaux, planning.",
+    preuve: "stratégie éditoriale et planning de publication.",
+  },
+  {
+    domaine: "Exprimer",
+    detail: "Transformer un sujet complexe en contenus simples et visuels.",
+    preuve: "carrousels et publications de sensibilisation.",
+  },
 ];
+
+const precedent = { nom: "WASHROLL", lien: "/projets/washroll" };
+const suivant = { nom: "Tous les projets", lien: "/projets" };
+
+/* Transforme 0, 1, 2 en "01", "02", "03" */
+const numero = (i) => String(i + 1).padStart(2, "0");
 ---
 
-<Layout title="ZOZZO — Rahma Hamdi">
-  <!-- EN-TÊTE DU PROJET -->
-  <section class="container section entete">
-    <div class="entete__panel pixel-panel pixel-panel--orange">
-      <p class="entete__label">Projet collectif · Web app LSF</p>
-      <h1>ZOZZO</h1>
-      <div class="liens">
-        <a href="#" target="_blank" rel="noopener">ZOZZO.fr ↗</a>
-        <a href="#" target="_blank" rel="noopener">Instagram ↗</a>
+<Layout title={`${projet.nom} — Rahma Hamdi`}>
+  <div class="container">
+
+    <!-- EN-TÊTE -->
+    <section class="section">
+      <a class="projet-retour" href="/projets">← Tous les projets</a>
+      <p class="label">{projet.type}</p>
+      <h1 class="projet-titre">{projet.nom}</h1>
+      <p class="projet-accroche">{projet.accroche}</p>
+
+      <dl class="projet-infos">
+        {infos.map((info) => (
+          <div>
+            <dt>{info.label}</dt>
+            <dd>{info.valeur}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <!-- 01 PRÉSENTATION -->
+    <section class="section">
+      <h2 class="projet-h2"><span>01</span> Présentation</h2>
+
+      <div class="projet-duo">
+        <div class="projet-texte">
+          <p>{projet.presentation}</p>
+          <div class="projet-actions">
+            <a class="pixel-btn" href={projet.lien} target="_blank" rel="noopener noreferrer">
+              Voir le site ↗
+            </a>
+            <a class="pixel-btn" href={projet.instagram} target="_blank" rel="noopener noreferrer">
+              Instagram ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="projet-visuel">
+          <!-- Quand ta capture est dans public/images/projets/,
+               enlève les commentaires autour de la ligne <img> -->
+          <!-- <img src="/images/projets/zozzo-site.png" alt="Page d'accueil du site ZOZZO" /> -->
+          <span>CAPTURE DU SITE</span>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PRÉSENTATION -->
-  <section class="container bloc" data-aos="fade-up">
-    <h2>Présentation</h2>
-    <p>
-      ZOZZO est un projet collectif autour de la langue des signes française et de la
-      sensibilisation à l'inclusion des personnes sourdes et malentendantes.
-    </p>
-    <p>
-      Mon objectif était d'analyser le marché existant, de lister les concurrents, de
-      trouver comment se différencier des autres applications et de créer une stratégie
-      de communication avec des cibles bien précises.
-    </p>
-  </section>
+    <!-- 02 MON RÔLE -->
+    <section class="section">
+      <h2 class="projet-h2"><span>02</span> Mon rôle</h2>
 
-  <!-- MISSIONS -->
-  <section class="container bloc" data-aos="fade-up">
-    <h2>Mes missions</h2>
-    <ul class="badges">
-      {missions.map((mission) => <li>{mission}</li>)}
-    </ul>
-  </section>
+      <div class="projet-missions">
+        {missions.map((mission, i) => (
+          <article class="pixel-panel projet-mission">
+            <span class="projet-mission__num">{numero(i)}</span>
+            <h3>{mission.titre}</h3>
+            <p>{mission.texte}</p>
+          </article>
+        ))}
+      </div>
+    </section>
 
-  <!-- CONTEXTE -->
-  <section class="container bloc" data-aos="fade-up">
-    <h2>Contexte</h2>
-    <p>
-      Avant de créer les contenus, j'ai travaillé sur l'environnement du projet afin de
-      comprendre le marché, les concurrents, les cibles et les tendances de
-      communication.
-    </p>
-    <p>
-      Cette analyse m'a permis de définir un positionnement plus clair et d'identifier
-      les sujets les plus pertinents à mettre en avant.
-    </p>
-  </section>
+    <!-- 03 COMPÉTENCES MOBILISÉES -->
+    <section class="section">
+      <h2 class="projet-h2"><span>03</span> Compétences mobilisées</h2>
 
-  <!-- DÉMARCHE -->
-  <section class="container bloc">
-    <h2 data-aos="fade-up">Ma démarche</h2>
-    <ol class="etapes">
-      {demarche.map((etape, index) => (
-        <li class="etape pixel-panel" data-aos="fade-up" data-aos-delay={index * 80}>
-          <span class="etape__numero">{String(index + 1).padStart(2, "0")}</span>
-          <span>{etape}</span>
-        </li>
-      ))}
-    </ol>
-  </section>
+      <ul class="projet-competences">
+        {competences.map((competence) => (
+          <li class="pixel-panel projet-competence">
+            <span class="label">{competence.domaine}</span>
+            <p>{competence.detail}</p>
+            <p class="projet-competence__preuve">Preuve : {competence.preuve}</p>
+          </li>
+        ))}
+      </ul>
 
-  <!-- RÉSULTAT -->
-  <section class="container bloc" data-aos="fade-up">
-    <h2>Résultat</h2>
-    <p>
-      Le projet a abouti à une stratégie de communication complète : étude de marché,
-      veille, positionnement, piliers éditoriaux, planning de publication et concepts
-      de contenus.
-    </p>
-    <p>
-      Ce projet montre ma capacité à partir d'une analyse stratégique pour aller jusqu'à
-      la création de supports de communication concrets.
-    </p>
-  </section>
+      <a class="pixel-btn" href="/competences">Toutes mes compétences</a>
+    </section>
 
-  <!-- COMPÉTENCES MOBILISÉES -->
-  <section class="container bloc">
-    <h2 data-aos="fade-up">Compétences mobilisées</h2>
-    <ul class="competences">
-      {competences.map((comp) => (
-        <li data-aos="fade-up">
-          <h3>{comp.titre}</h3>
-          <p>{comp.texte}</p>
-        </li>
-      ))}
-    </ul>
-  </section>
+    <!-- NAVIGATION ENTRE PROJETS -->
+    <nav class="projet-nav section" aria-label="Autres projets">
+      <a href={precedent.lien}>← {precedent.nom}</a>
+      <a href={suivant.lien}>{suivant.nom} →</a>
+    </nav>
 
-  <!-- NAVIGATION -->
-  <section class="container section navigation">
-    <a href="/projets" class="pixel-btn">← Tous les projets</a>
-    <a href="/competences" class="pixel-btn">Mes compétences →</a>
-  </section>
+  </div>
 </Layout>
-
-<style>
-  .entete__panel {
-    padding: clamp(2rem, 5vw, 3.5rem) 1.5rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .entete__label {
-    font-family: var(--font-pixel);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-  }
-
-  .entete h1 {
-    text-shadow: 3px 3px 0 var(--creme);
-  }
-
-  .liens {
-    display: flex;
-    gap: 1.5rem;
-    font-weight: 600;
-  }
-
-  .bloc {
-    padding-block: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .bloc h2 {
-    color: var(--orange);
-    margin-bottom: 0.5rem;
-  }
-
-  .badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    list-style: none;
-  }
-
-  .badges li {
-    padding: 0.5rem 0.75rem;
-    font-family: var(--font-pixel);
-    font-size: 0.6875rem;
-    border: 3px solid var(--orange);
-  }
-
-  .etapes {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
-    list-style: none;
-  }
-
-  @media (min-width: 640px) {
-    .etapes { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (min-width: 1024px) {
-    .etapes { grid-template-columns: repeat(3, 1fr); }
-  }
-
-  .etape {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.1rem 1.25rem;
-  }
-
-  .etape__numero {
-    font-family: var(--font-pixel);
-    font-size: 0.75rem;
-    color: var(--orange);
-  }
-
-  .competences {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem 3rem;
-    list-style: none;
-  }
-
-  @media (min-width: 760px) {
-    .competences { grid-template-columns: 1fr 1fr; }
-  }
-
-  .competences h3 {
-    font-size: 0.8125rem;
-    color: var(--orange);
-    margin-bottom: 0.4rem;
-  }
-
-  .competences p {
-    font-size: 0.95rem;
-    opacity: 0.85;
-  }
-
-  .navigation {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-  }
-</style>

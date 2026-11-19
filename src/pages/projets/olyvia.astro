@@ -1,0 +1,148 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/projet.css";
+
+/* ---------- Données du projet ---------- */
+const projet = {
+  nom: "OLYVIA",
+  type: "Webapp · Vidéo",
+  accroche:
+    "Une web app pour comprendre la préménopause et la ménopause, et en parler sans tabou.",
+  presentation:
+    "OLYVIA est une web app WordPress destinée aux femmes en préménopause ou en début de ménopause. Elle réunit des explications claires sur les symptômes, des conseils bien-être, des témoignages et un forum pour celles qui veulent échanger. Le ton est rassurant : le site informe et accompagne, sans remplacer un avis médical.",
+  lien: "https://olyvia.ayyobi.fr/",
+};
+
+const infos = [
+  { label: "Cadre", valeur: "SAÉ 201-202 · BUT MMI 1re année" },
+  { label: "Équipe", valeur: "Rachida El Aarbaoui, Nargis Ayyobi, Rahma Hamdi" },
+  { label: "Mon rôle", valeur: "Entretiens, tournage, communication" },
+];
+
+const missions = [
+  {
+    titre: "Entretiens",
+    texte:
+      "Recherche de participantes, rédaction d'un guide de questions ouvertes et échanges avec des femmes concernées pour comprendre leurs vrais besoins.",
+  },
+  {
+    titre: "Tournage",
+    texte:
+      "Captation d'une interview : cadrage à la caméra, prise de son au micro professionnel, installation de l'éclairage et autorisations de droit à l'image.",
+  },
+  {
+    titre: "Communication",
+    texte:
+      "Participation au dossier de communication : messages clés, publications pour les réseaux sociaux et plan de diffusion de la campagne « Ménopause, osons en parler ».",
+  },
+];
+
+const competences = [
+  {
+    domaine: "Comprendre",
+    detail: "Analyser les besoins réels des utilisatrices à partir d'entretiens.",
+    preuve: "guide de questions et personas ajustés après les entretiens.",
+  },
+  {
+    domaine: "Concevoir",
+    detail:
+      "Construire une stratégie de communication : messages clés, choix des plateformes, plan de diffusion.",
+    preuve: "partie communication du dossier OLYVIA.",
+  },
+  {
+    domaine: "Exprimer",
+    detail: "Produire un contenu vidéo : cadrage, son et lumière.",
+    preuve: "interview filmée, avec autorisations de droit à l'image signées.",
+  },
+];
+
+const precedent = { nom: "Tous les projets", lien: "/projets" };
+const suivant = { nom: "WASHROLL", lien: "/projets/washroll" };
+
+/* Transforme 0, 1, 2 en "01", "02", "03" */
+const numero = (i) => String(i + 1).padStart(2, "0");
+---
+
+<Layout title={`${projet.nom} — Rahma Hamdi`}>
+  <div class="container">
+
+    <!-- EN-TÊTE -->
+    <section class="section">
+      <a class="projet-retour" href="/projets">← Tous les projets</a>
+      <p class="label">{projet.type}</p>
+      <h1 class="projet-titre">{projet.nom}</h1>
+      <p class="projet-accroche">{projet.accroche}</p>
+
+      <dl class="projet-infos">
+        {infos.map((info) => (
+          <div>
+            <dt>{info.label}</dt>
+            <dd>{info.valeur}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <!-- 01 PRÉSENTATION -->
+    <section class="section">
+      <h2 class="projet-h2"><span>01</span> Présentation</h2>
+
+      <div class="projet-duo">
+        <div class="projet-texte">
+          <p>{projet.presentation}</p>
+          <div class="projet-actions">
+            <a class="pixel-btn" href={projet.lien} target="_blank" rel="noopener noreferrer">
+              Voir le site ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="projet-visuel">
+          <!-- Quand ta capture est dans public/images/projets/,
+               enlève les commentaires autour de la ligne <img> -->
+          <!-- <img src="/images/projets/olyvia-site.png" alt="Page d'accueil du site OLYVIA" /> -->
+          <span>CAPTURE DU SITE</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 MON RÔLE -->
+    <section class="section">
+      <h2 class="projet-h2"><span>02</span> Mon rôle</h2>
+
+      <div class="projet-missions">
+        {missions.map((mission, i) => (
+          <article class="pixel-panel projet-mission">
+            <span class="projet-mission__num">{numero(i)}</span>
+            <h3>{mission.titre}</h3>
+            <p>{mission.texte}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- 03 COMPÉTENCES MOBILISÉES -->
+    <section class="section">
+      <h2 class="projet-h2"><span>03</span> Compétences mobilisées</h2>
+
+      <ul class="projet-competences">
+        {competences.map((competence) => (
+          <li class="pixel-panel projet-competence">
+            <span class="label">{competence.domaine}</span>
+            <p>{competence.detail}</p>
+            <p class="projet-competence__preuve">Preuve : {competence.preuve}</p>
+          </li>
+        ))}
+      </ul>
+
+      <a class="pixel-btn" href="/competences">Toutes mes compétences</a>
+    </section>
+
+    <!-- NAVIGATION ENTRE PROJETS -->
+    <nav class="projet-nav section" aria-label="Autres projets">
+      <a href={precedent.lien}>← {precedent.nom}</a>
+      <a href={suivant.lien}>{suivant.nom} →</a>
+    </nav>
+
+  </div>
+</Layout>

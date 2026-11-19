@@ -2,6 +2,20 @@
 import { liens } from "../data/navigation.js";
 
 const annee = new Date().getFullYear();
+
+/* Mes réseaux (icônes dans public/images/) */
+const reseaux = [
+  {
+    nom: "LinkedIn",
+    lien: "https://www.linkedin.com/in/rahma-hamdi-a26353328/",
+    icone: "/images/linkedin.svg",
+  },
+  {
+    nom: "Behance",
+    lien: "https://www.behance.net/rahmahamdi3",
+    icone: "/images/behance.svg",
+  },
+];
 ---
 
 <footer class="footer">
@@ -15,7 +29,6 @@ const annee = new Date().getFullYear();
           class="footer__logo"
         />
       </a>
-      
     </div>
 
     <!-- NAVIGATION -->
@@ -26,6 +39,22 @@ const annee = new Date().getFullYear();
         ))}
       </ul>
     </nav>
+
+    <!-- RÉSEAUX : LinkedIn + Behance -->
+    <ul class="footer__reseaux">
+      {reseaux.map((reseau) => (
+        <li>
+          <a
+            href={reseau.lien}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${reseau.nom} (nouvel onglet)`}
+          >
+            <img src={reseau.icone} alt="" width="28" height="28" />
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </footer>
 
@@ -36,7 +65,7 @@ const annee = new Date().getFullYear();
     border-top: 2px solid var(--brun);
   }
 
-  /* ---------- DESKTOP : logo à gauche, liens à droite ---------- */
+  /* ---------- DESKTOP : logo à gauche, liens et icônes à droite ---------- */
   .footer__inner {
     width: min(100% - 2rem, 1400px);
     margin-inline: auto;
@@ -71,6 +100,11 @@ const annee = new Date().getFullYear();
     color: var(--noir);
   }
 
+  /* Pousse la navigation (et les icônes après elle) vers la droite */
+  .footer__nav {
+    margin-left: auto;
+  }
+
   .footer__links {
     display: flex;
     flex-wrap: wrap; /* les liens passent à la ligne au lieu de se chevaucher */
@@ -93,6 +127,45 @@ const annee = new Date().getFullYear();
     text-underline-offset: 4px;
   }
 
+  /* ---------- Icônes des réseaux ---------- */
+  .footer__reseaux {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Case de 44 px : assez grande pour être touchée au doigt */
+  .footer__reseaux a {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    background: var(--creme);
+    border: 3px solid var(--noir);
+    box-shadow: 3px 3px 0 var(--brun);
+    transition: transform 0.15s steps(3), box-shadow 0.15s steps(3);
+  }
+
+  /* Au survol : la case se soulève et son ombre grandit */
+  .footer__reseaux a:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--brun);
+  }
+
+  .footer__reseaux a:focus-visible {
+    outline: 3px solid var(--noir);
+    outline-offset: 3px;
+  }
+
+  .footer__reseaux img {
+    display: block;
+    width: 28px;
+    height: 28px;
+    image-rendering: pixelated; /* garde les pixels nets */
+  }
+
   /* ---------- MOBILE (moins de 700 px) : tout en colonne, centré ---------- */
   @media (max-width: 700px) {
     .footer {
@@ -113,6 +186,10 @@ const annee = new Date().getFullYear();
       width: 96px;
     }
 
+    .footer__nav {
+      margin-left: 0;
+    }
+
     .footer__links {
       justify-content: center;
       gap: 0 0.25rem;
@@ -123,6 +200,17 @@ const annee = new Date().getFullYear();
       display: block;
       padding: 0.6rem 0.4rem;
       font-size: 0.5625rem; /* 9 px */
+    }
+
+    .footer__reseaux {
+      justify-content: center;
+    }
+  }
+
+  /* Pas d'animation pour les personnes qui les ont désactivées */
+  @media (prefers-reduced-motion: reduce) {
+    .footer__reseaux a {
+      transition: none;
     }
   }
 </style>

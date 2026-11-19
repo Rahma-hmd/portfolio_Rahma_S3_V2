@@ -2,6 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import { projets } from "../../data/projets.js";
+import ProjectBarrel from "../../components/ProjectBarrel.astro";
+
 ---
 
 <Layout title="Projets — Rahma Hamdi">
@@ -12,18 +14,8 @@ import { projets } from "../../data/projets.js";
       Choisissez un projet pour découvrir ma démarche, de l'analyse jusqu'au résultat.
     </p>
 
-    <div class="grille">
-      {projets.map((projet, index) => (
-        <ProjectCard
-          nom={projet.nom}
-          type={projet.type}
-          resume={projet.resume}
-          tags={projet.tags}
-          href={`/projets/${projet.slug}`}
-          delai={index * 100}
-        />
-      ))}
-    </div>
+        <ProjectBarrel />
+
   </section>
 </Layout>
 
